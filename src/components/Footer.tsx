@@ -6,7 +6,7 @@ const Footer = () => {
     <Styled className="footer text-small">
       <a
         className="footer-link"
-        href="https://github.com/timsj/"
+        href="https://github.com/timsj/wiki-palette"
         target="_blank"
         rel="noopener noreferrer"
       >
