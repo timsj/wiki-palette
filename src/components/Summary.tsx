@@ -16,7 +16,13 @@ const Summary = ({ data }: SelectedSummaryProps) => {
   const { setBackground } = useAppContext();
   const canvas = useRef<HTMLCanvasElement | null>(null);
 
-  useEffect(() => handleImage(), [data]);
+  useEffect(() => {
+    // if there is a lead image, handle image
+    if (thumbnailImgURL) handleImage();
+    // if no image, set empty background color palette and default meta theme
+    setBackground && setBackground([]);
+    changeThemeColor([[255, 255, 254]]);
+  }, [thumbnailImgURL]);
 
   const handleImage = () => {
     // create canvas context
@@ -50,10 +56,6 @@ const Summary = ({ data }: SelectedSummaryProps) => {
         }
       }
     };
-
-    //set empty background color palette, or white rgb meta theme if no image
-    setBackground && setBackground([]);
-    changeThemeColor([[255, 255, 254]]);
   };
 
   if (type === "disambiguation") {
