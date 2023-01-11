@@ -165,13 +165,15 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
               onChange={debouncedHandleChange}
               ref={inputRef}
             />
-            <button
-              type="button"
-              className="btn clear"
-              onClick={() => handleClear()}
-            >
-              <CgClose />
-            </button>
+            {query.length > 0 && (
+              <button
+                type="button"
+                className="btn clear"
+                onClick={() => handleClear()}
+              >
+                <CgClose />
+              </button>
+            )}
           </div>
         </div>
         <ul className={showDropdown ? "results" : "results hidden"}>
