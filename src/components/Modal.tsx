@@ -62,8 +62,8 @@ const Modal = () => {
         </p>
         <p className="modal-text">
           By default, the palettes are sorted by dominance, meaning that the
-          left-most color appears the most frequently in the input image,
-          whereas the right-most color appears the least frequently.
+          left-most color appears most frequently in the input image, whereas
+          the right-most color appears least frequently.
         </p>
         <p className="modal-text" style={{ marginBottom: "0.5rem" }}>
           Optionally, palettes can be sorted by{" "}
@@ -76,8 +76,8 @@ const Modal = () => {
             relative luminance&nbsp;
             <RiExternalLinkLine />
           </a>
-          . This means that the colors of any given palette will be sorted from
-          lightest to darkest, left to right.
+          . This means that the colors of any given palette will be sorted
+          relatively from lightest to darkest, left to right.
         </p>
       </div>
     </Styled>
