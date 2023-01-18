@@ -48,8 +48,11 @@ const App = () => {
 const Styled = styled.main`
   position: relative;
   min-height: 100vh;
-  /* mobile viewport bug fix */
-  min-height: -webkit-fill-available;
+
+  /* avoid Chrome to apply iOS Safari viewport bug fix */
+  @supports (-webkit-touch-callout: none) {
+    min-height: -webkit-fill-available;
+  }
 
   .content {
     padding: 1rem 0;
