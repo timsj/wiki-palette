@@ -2,7 +2,7 @@
 
 A web app that generates color palettes from Wikipedia article images.
 
-Search for any Wikipedia article, and Wiki Palette extracts the dominant colors from its lead image using a modified median cut quantization algorithm.
+Search for any Wikipedia article, and Wiki Palette [extracts the dominant colors](https://en.wikipedia.org/wiki/Color_quantization) from its lead image using a modified median cut quantization algorithm.
 
 ## Features
 
@@ -12,26 +12,16 @@ Search for any Wikipedia article, and Wiki Palette extracts the dominant colors 
 - **Sort Options** — Sort palette by dominance (frequency) or luminance (brightness)
 - **Copy Colors** — Click any color to copy its hex value
 
-## Getting Started
-
-```bash
-npm install
-npm run dev
-```
-
-## Scripts
-
-| Command           | Description                         |
-| ----------------- | ----------------------------------- |
-| `npm run dev`     | Start development server            |
-| `npm run build`   | Type-check and build for production |
-| `npm run preview` | Preview production build            |
-
 ## How It Works
 
-The color quantization algorithm is a TypeScript implementation of the modified median cut algorithm from the Leptonica library. It recursively partitions the color space to identify the most dominant colors in an image.
+The color quantization is a TypeScript implementation of the [modified median cut algorithm](http://leptonica.org/papers/mediancut.pdf) from the [Leptonica](http://www.leptonica.org) library. It recursively partitions the color space to identify the most dominant colors in an image.
 
 Colors can be sorted by:
 
 - **Dominance** — How frequently the color appears in the image
 - **Luminance** — Brightness using the W3C relative luminance formula
+
+<br>
+<div style="text-align: center;">
+<img src="https://i.imgur.com/56UG1qA.png" width="50%" height="50%" alt="screenshot of app"/>
+</div>
