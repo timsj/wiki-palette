@@ -12,6 +12,11 @@ Search for any Wikipedia article, and Wiki Palette [extracts the dominant colors
 - **Sort Options** — Sort palette by dominance (frequency) or luminance (brightness)
 - **Copy Colors** — Click any color to copy its hex value
 
+<br>
+<p align="center">
+    <img src="https://i.imgur.com/56UG1qA.png" width="50%" height="50%" alt="screenshot of app"/>
+</p>
+
 ## How It Works
 
 The color quantization is a TypeScript implementation of the [modified median cut algorithm](http://leptonica.org/papers/mediancut.pdf) from the [Leptonica](http://www.leptonica.org) library. It recursively partitions the color space to identify the most dominant colors in an image.
@@ -20,8 +25,3 @@ Colors can be sorted by:
 
 - **Dominance** — How frequently the color appears in the image
 - **Luminance** — Brightness using the W3C relative luminance formula
-
-<br>
-<div style="text-align: center;">
-<img src="https://i.imgur.com/56UG1qA.png" width="50%" height="50%" alt="screenshot of app"/>
-</div>
