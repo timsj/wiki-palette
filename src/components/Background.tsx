@@ -36,6 +36,7 @@ const Background = () => {
 const GlobalStyle = createGlobalStyle<CustomStyleProps>`
   body {
     background: ${(props) => props.background};
+    transition: background 0.3s ease-in-out;
   }
 `;
 

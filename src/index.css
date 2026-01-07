@@ -8,6 +8,8 @@
 
 html {
   font-size: 100%;
+  background: var(--background);
+  transition: background 0.3s ease-in-out;
 }
 
 :root {

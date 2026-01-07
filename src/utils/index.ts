@@ -66,10 +66,14 @@ export const sortByLuminance = (palette: ColorPalette[]): ColorPalette[] => {
 export const changeThemeColor = (palette: ColorPalette[]) => {
   //grab dominant color from generated color palette
   const [r, g, b] = palette[0];
+  const color = `rgb(${r},${g},${b})`;
 
   //change html theme-color meta value
   const metaThemeColor = document.querySelector("meta[name=theme-color]");
-  metaThemeColor?.setAttribute("content", `rgb(${r},${g},${b})`);
+  metaThemeColor?.setAttribute("content", color);
+
+  //change html background for iOS overscroll areas
+  document.documentElement.style.background = color;
 };
 
 export const rgbToHex = (r: number, g: number, b: number): string => {
