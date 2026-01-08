@@ -266,6 +266,7 @@ export class CMap {
     return pColor;
   };
 
+  // currently unused
   forcebw = () => {
     this.vboxes.sort((a: VBoxItem, b: VBoxItem) => {
       return pv.naturalOrder(pv.sum(a.color), pv.sum(b.color));

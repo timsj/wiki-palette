@@ -60,11 +60,17 @@ const srgbToLinear = (value: number): number => {
 
 // https://www.w3.org/TR/WCAG22/#dfn-relative-luminance
 const calcRelativeLuminance = ([r, g, b]: Pixel): number => {
-  return 0.2126 * srgbToLinear(r) + 0.7152 * srgbToLinear(g) + 0.0722 * srgbToLinear(b);
+  return (
+    0.2126 * srgbToLinear(r) +
+    0.7152 * srgbToLinear(g) +
+    0.0722 * srgbToLinear(b)
+  );
 };
 
 export const sortByLuminance = (palette: ColorPalette[]): ColorPalette[] => {
-  return [...palette].sort((c1, c2) => calcRelativeLuminance(c2) - calcRelativeLuminance(c1));
+  return [...palette].sort(
+    (c1, c2) => calcRelativeLuminance(c2) - calcRelativeLuminance(c1)
+  );
 };
 
 export const changeThemeColor = (palette: ColorPalette[]) => {
