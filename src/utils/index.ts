@@ -5,7 +5,7 @@ export const debounce = (func: Function, delay = 1000) => {
   let timeoutId: ReturnType<typeof setTimeout>;
   return (...args: any[]) => {
     if (timeoutId) clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => func.apply(this, args), delay);
+    timeoutId = setTimeout(() => func(...args), delay);
   };
 };
 
@@ -31,30 +31,23 @@ export const createColorPalette = (
   // generate color palette and strip array of PQueue class function properties
   // to avoid React devtools error "Uncaught DOMException: Function object could not be cloned"
   const palette = cmap.palette();
-  let cleanPalette: ColorPalette[] = [];
-  palette.forEach((el) => cleanPalette.push(el));
-
+  const cleanPalette: ColorPalette[] = palette.map(
+    (el) => [...el] as ColorPalette
+  );
   return cleanPalette;
 };
 
-export const sortByLuminance = (palette: ColorPalette[]): ColorPalette[] => {
-  const calcRelativeLuminance = (color: Pixel) => {
-    // https://www.w3.org/TR/WCAG22/#dfn-relative-luminance
-    const linearRGB = color.map((n) => {
-      // normalize 8-bit RGB values
-      let norm = n / 255;
-      // convert from gamma-compressed to linear RGB
-      if (norm <= 0.04045) {
-        return norm / 12.92;
-      } else {
-        return Math.pow((norm + 0.055) / 1.055, 2.4);
-      }
-    });
+// Convert sRGB gamma-compressed value to linear RGB
+const srgbToLinear = (value: number): number => {
+  const norm = value / 255;
+  return norm > 0.04045 ? Math.pow((norm + 0.055) / 1.055, 2.4) : norm / 12.92;
+};
 
-    // calculate relative luminance
-    const [R, G, B] = linearRGB;
-    const luminance = 0.2126 * R + 0.7152 * G + 0.0722 * B;
-    return luminance;
+export const sortByLuminance = (palette: ColorPalette[]): ColorPalette[] => {
+  // https://www.w3.org/TR/WCAG22/#dfn-relative-luminance
+  const calcRelativeLuminance = (color: Pixel) => {
+    const [R, G, B] = color.map(srgbToLinear);
+    return 0.2126 * R + 0.7152 * G + 0.0722 * B;
   };
 
   // return new sorted palette by descending luminance
