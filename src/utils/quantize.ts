@@ -231,6 +231,13 @@ export class CMap {
     return this.vboxes.map((vb) => vb.color);
   };
 
+  paletteWithCounts = (): { color: Pixel; count: number }[] => {
+    return this.vboxes.map((vb) => ({
+      color: vb.color,
+      count: vb.vbox.count(),
+    }));
+  };
+
   size = () => {
     return this.vboxes.size();
   };

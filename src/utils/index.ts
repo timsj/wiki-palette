@@ -22,19 +22,34 @@ const getRgbArray = (imgData: Uint8ClampedArray): Pixel[] => {
 
 export const createColorPalette = (
   imgData: Uint8ClampedArray,
-  maxColors: number
+  maxColors: number,
+  countThreshold: number = 0.025
 ): ColorPalette[] => {
   // generate RGB array for each pixel
   const rgbArray = getRgbArray(imgData);
+
   // create color map using modified median cut quantization
   const cmap = quantize(rgbArray, maxColors);
-  // generate color palette and strip array of PQueue class function properties
-  // to avoid React devtools error "Uncaught DOMException: Function object could not be cloned"
-  const palette = cmap.palette();
-  const cleanPalette: ColorPalette[] = palette.map(
-    (el) => [...el] as ColorPalette
+
+  // get palette with pixel counts
+  const paletteWithCounts = cmap.paletteWithCounts();
+  if (paletteWithCounts.length === 0) return [];
+
+  // filter out colors with significantly lower pixel counts
+  const maxCount = Math.max(...paletteWithCounts.map((p) => p.count));
+  let filtered = paletteWithCounts.filter(
+    (p) => p.count >= maxCount * countThreshold
   );
-  return cleanPalette;
+
+  // ensure minimum of 2 colors (take top by count if filtering was too aggressive)
+  const minColors = 2;
+  if (filtered.length < minColors && paletteWithCounts.length >= minColors) {
+    filtered = paletteWithCounts.slice(0, minColors);
+  }
+
+  // strip array of PQueue class function properties
+  // to avoid React devtools error "Uncaught DOMException: Function object could not be cloned"
+  return filtered.map((p) => [...p.color] as ColorPalette);
 };
 
 // Convert sRGB gamma-compressed value to linear RGB
