@@ -58,20 +58,18 @@ const srgbToLinear = (value: number): number => {
   return norm > 0.04045 ? Math.pow((norm + 0.055) / 1.055, 2.4) : norm / 12.92;
 };
 
-export const sortByLuminance = (palette: ColorPalette[]): ColorPalette[] => {
-  // https://www.w3.org/TR/WCAG22/#dfn-relative-luminance
-  const calcRelativeLuminance = (color: Pixel) => {
-    const [R, G, B] = color.map(srgbToLinear);
-    return 0.2126 * R + 0.7152 * G + 0.0722 * B;
-  };
+// https://www.w3.org/TR/WCAG22/#dfn-relative-luminance
+const calcRelativeLuminance = ([r, g, b]: Pixel): number => {
+  return 0.2126 * srgbToLinear(r) + 0.7152 * srgbToLinear(g) + 0.0722 * srgbToLinear(b);
+};
 
-  // return new sorted palette by descending luminance
-  return [...palette].sort((c1, c2) => {
-    return calcRelativeLuminance(c2) - calcRelativeLuminance(c1);
-  });
+export const sortByLuminance = (palette: ColorPalette[]): ColorPalette[] => {
+  return [...palette].sort((c1, c2) => calcRelativeLuminance(c2) - calcRelativeLuminance(c1));
 };
 
 export const changeThemeColor = (palette: ColorPalette[]) => {
+  if (!palette.length) return;
+
   //grab dominant color from generated color palette
   const [r, g, b] = palette[0];
   const color = `rgb(${r},${g},${b})`;
@@ -82,6 +80,15 @@ export const changeThemeColor = (palette: ColorPalette[]) => {
 
   //change html background for iOS overscroll areas
   document.documentElement.style.background = color;
+
+  // calculate average luminance of background colors (first 2-3 from palette)
+  const bgColors = palette.slice(0, 3);
+  const luminance =
+    bgColors.reduce((sum, color) => sum + calcRelativeLuminance(color), 0) /
+    bgColors.length;
+
+  // toggle dark class based on background luminance
+  document.documentElement.classList.toggle("dark", luminance < 0.25);
 };
 
 export const rgbToHex = (r: number, g: number, b: number): string => {

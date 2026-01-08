@@ -214,6 +214,7 @@ const Styled = styled.div`
     background: var(--alt-background);
     border: none;
     box-shadow: none;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
   }
 
   .clear:hover {
@@ -238,25 +239,26 @@ const Styled = styled.div`
 
   li {
     background: var(--alt-background);
-    border: 1px solid var(--gray-300);
+    border: 1px solid var(--alt-background-active);
     border-bottom: transparent;
     padding: 0.5rem;
     background-clip: border-box;
     user-select: none;
+    transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
   }
 
   .no-results:hover {
     cursor: not-allowed;
-    background-color: var(--gray-50);
+    background-color: var(--alt-background);
   }
 
   li:hover {
     cursor: pointer;
-    background-color: var(--gray-200);
+    background-color: var(--alt-background-hover);
   }
 
   .focused {
-    background-color: var(--gray-300);
+    background-color: var(--alt-background-active);
   }
 
   li:first-child {
@@ -264,7 +266,7 @@ const Styled = styled.div`
   }
 
   li:last-child {
-    border-bottom: 1px solid var(--gray-300);
+    border-bottom: 1px solid var(--alt-background-active);
     border-radius: 0 0 0.75rem 0.75rem;
   }
 

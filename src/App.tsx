@@ -79,11 +79,6 @@ const Styled = styled.main`
     margin-bottom: 1rem;
   }
 
-  .logo {
-    width: 50vw;
-    max-width: 225px;
-  }
-
   .summary-loading {
     margin: 10% 0;
   }

@@ -7,13 +7,15 @@ interface CustomStyleProps {
 
 const Background = () => {
   const { bkgPalette } = useAppContext();
-  // store first three dominant colors from generated palette
+  // store up to three dominant colors from generated palette
   const [color1, color2, color3] = bkgPalette;
   // default background from index.css
   let bkg = "var(--background)";
 
   // create linear gradient background with colors
-  if (color1 && color2 && color3)
+  if (color1 && color2) {
+    // use color2 as fallback for color3 if only 2 colors available
+    const c3 = color3 || color2;
     bkg = `linear-gradient(
     217deg,
     rgba(${color1[0]}, ${color1[1]}, ${color1[2]}, 0.75),
@@ -26,9 +28,10 @@ const Background = () => {
   ),
   linear-gradient(
     127deg,
-    rgba(${color3[0]}, ${color3[1]}, ${color3[2]}, 0.75),
-    rgba(${color3[0]}, ${color3[1]}, ${color3[2]}, 0) 80%
+    rgba(${c3[0]}, ${c3[1]}, ${c3[2]}, 0.75),
+    rgba(${c3[0]}, ${c3[1]}, ${c3[2]}, 0) 80%
   );`;
+  }
 
   return <GlobalStyle background={bkg} />;
 };
