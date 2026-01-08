@@ -149,7 +149,7 @@ class VBox {
   };
 
   avg = (force?: boolean) => {
-    if (this._avg.length && force) {
+    if (this._avg.length && !force) {
       return this._avg;
     }
     let ntot = 0,
@@ -247,11 +247,10 @@ export class CMap {
   nearest = (color: Pixel) => {
     let i, d1, d2, pColor;
     for (i = 0; i < this.vboxes.size(); i++) {
-      d2 = Math.sqrt(
+      d2 =
         Math.pow(color[0] - this.vboxes.peek(i).color[0], 2) +
-          Math.pow(color[1] - this.vboxes.peek(i).color[1], 2) +
-          Math.pow(color[2] - this.vboxes.peek(i).color[2], 2)
-      );
+        Math.pow(color[1] - this.vboxes.peek(i).color[1], 2) +
+        Math.pow(color[2] - this.vboxes.peek(i).color[2], 2);
       if (d1 === undefined || d2 < d1) {
         d1 = d2;
         pColor = this.vboxes.peek(i).color;
@@ -261,7 +260,6 @@ export class CMap {
   };
 
   forcebw = () => {
-    // XXX: won't  work yet
     this.vboxes.sort((a: VBoxItem, b: VBoxItem) => {
       return pv.naturalOrder(pv.sum(a.color), pv.sum(b.color));
     });
@@ -346,7 +344,6 @@ const medianCutApply = (histo: Histo, vbox: VBox): VBox[] => {
   /* Find the partial sum arrays along the selected axis. */
   let total = 0,
     partialsum: number[] = [],
-    lookaheadsum = [],
     i,
     j,
     k,
@@ -390,10 +387,6 @@ const medianCutApply = (histo: Histo, vbox: VBox): VBox[] => {
       total += sum;
       partialsum[i] = total;
     }
-
-    partialsum.forEach((d, i) => {
-      lookaheadsum[i] = total - d;
-    });
   }
 
   const doCut = (color: "r" | "g" | "b") => {
@@ -452,11 +445,8 @@ export const quantize = (pixels: Pixel[], maxColors: number) => {
 
     while (niters < maxIterations) {
       if (ncolors >= target) return;
-      if (niters++ > maxIterations) {
-        console.log("infinite loop; perhaps too few pixels!");
-        return;
-      }
       if (!lh.peek().count()) return;
+      niters++;
 
       vbox = lh.pop();
       if (!vbox.count()) {
@@ -499,16 +489,8 @@ export const quantize = (pixels: Pixel[], maxColors: number) => {
     pq2.push(pq.pop());
   }
 
-  // Count number of colors in input image histo
-  let nColors = 0;
-  histo.forEach(() => nColors++);
-
-  // Calc num of extra colors if input image histo has less colors than requested palette number
-  let extra = nColors < maxColors ? maxColors - nColors : 0;
-
   // next set - generate the median cuts using the (npix * vol) sorting.
-  // subtract extra color(s)
-  iter(pq2, maxColors - extra);
+  iter(pq2, maxColors);
 
   // calculate the actual colors
   const cmap = new CMap();
