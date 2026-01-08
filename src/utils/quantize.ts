@@ -325,11 +325,11 @@ const vboxFromPixels = (pixels: Pixel[], histo: Histo) => {
     bval = pixel[2] >> rshift;
 
     if (rval < rmin) rmin = rval;
-    else if (rval > rmax) rmax = rval;
+    if (rval > rmax) rmax = rval;
     if (gval < gmin) gmin = gval;
-    else if (gval > gmax) gmax = gval;
+    if (gval > gmax) gmax = gval;
     if (bval < bmin) bmin = bval;
-    else if (bval > bmax) bmax = bval;
+    if (bval > bmax) bmax = bval;
   });
 
   return new VBox(rmin, rmax, gmin, gmax, bmin, bmax, histo);
