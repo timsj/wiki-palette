@@ -60,7 +60,7 @@
   background-color: var(--alt-background-hover);
 }
 
-.focused {
+.container li.focused {
   background-color: var(--alt-background-active);
 }
 
