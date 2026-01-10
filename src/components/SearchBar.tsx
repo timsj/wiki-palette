@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import styled from "styled-components";
 import { FaRandom } from "react-icons/fa";
 import { CgClose } from "react-icons/cg";
 
 import { Loading } from ".";
 import { debounce } from "../utils";
 import { useAppContext } from "../context/appContext";
+import styles from "./SearchBar.module.css";
 
 interface SearchBarProps {
   name: string;
@@ -103,7 +103,7 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
   const renderResults = results?.map((result, i) => {
     if (result.title === "No search results") {
       return (
-        <li key={0} className="no-results">
+        <li key={0} className={styles.noResults}>
           No search results
         </li>
       );
@@ -114,7 +114,7 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
         onMouseEnter={() => setFocusedIndex(i)}
         onClick={() => handleSelection(i)}
         ref={i === focusedIndex ? resultRef : null}
-        className={i === focusedIndex ? "focused" : ""}
+        className={i === focusedIndex ? styles.focused : ""}
       >
         {result.title}
       </li>
@@ -135,14 +135,19 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
   const debouncedHandleRandom = useCallback(debounce(handleRandom, 250), []);
 
   return (
-    <Styled tabIndex={1} onKeyDown={handleKeyDown} ref={searchRef}>
+    <div
+      className={styles.container}
+      tabIndex={1}
+      onKeyDown={handleKeyDown}
+      ref={searchRef}
+    >
       <form
         autoComplete="off"
         onSubmit={(e) => e.preventDefault()}
         ref={formRef}
       >
         <div className="form-row">
-          <div className="heading">
+          <div className={styles.heading}>
             {labelText && (
               <label className="form-label" htmlFor={name}>
                 {labelText}
@@ -156,7 +161,7 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
               <FaRandom /> &nbsp;Random article
             </button>
           </div>
-          <div className="input">
+          <div className={styles.input}>
             <input
               className="form-input"
               type="text"
@@ -168,7 +173,7 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
             {query.length > 0 && (
               <button
                 type="button"
-                className="btn clear"
+                className={`btn ${styles.clear}`}
                 onClick={() => handleClear()}
               >
                 <CgClose />
@@ -176,7 +181,7 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
             )}
           </div>
         </div>
-        <ul className={showDropdown ? "results" : "results hidden"}>
+        <ul className={`${styles.results} ${!showDropdown ? "hidden" : ""}`}>
           {isSearchLoading ? (
             <li>
               <Loading center />
@@ -186,93 +191,8 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
           )}
         </ul>
       </form>
-    </Styled>
+    </div>
   );
 };
-
-const Styled = styled.div`
-  label {
-    margin-bottom: 0;
-  }
-
-  .heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-  }
-
-  .input {
-    position: relative;
-  }
-
-  .clear {
-    position: absolute;
-    bottom: 10%;
-    right: 1%;
-    color: var(--gray-500);
-    background: var(--alt-background);
-    border: none;
-    box-shadow: none;
-    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-  }
-
-  .clear:hover {
-    color: var(--paragraph);
-  }
-
-  .results {
-    position: absolute;
-    z-index: 100;
-    width: 90%;
-    margin-top: 0.25rem;
-    filter: drop-shadow(0 1px 5px rgba(0, 0, 0, 0.25));
-  }
-
-  .no-results {
-    color: var(--gray-400);
-  }
-
-  .hidden {
-    display: none;
-  }
-
-  li {
-    background: var(--alt-background);
-    border: 1px solid var(--alt-background-active);
-    border-bottom: transparent;
-    padding: 0.5rem;
-    background-clip: border-box;
-    user-select: none;
-    transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
-  }
-
-  .no-results:hover {
-    cursor: not-allowed;
-    background-color: var(--alt-background);
-  }
-
-  li:hover {
-    cursor: pointer;
-    background-color: var(--alt-background-hover);
-  }
-
-  .focused {
-    background-color: var(--alt-background-active);
-  }
-
-  li:first-child {
-    border-radius: 0.75rem 0.75rem 0 0;
-  }
-
-  li:last-child {
-    border-bottom: 1px solid var(--alt-background-active);
-    border-radius: 0 0 0.75rem 0.75rem;
-  }
-
-  li:only-child {
-    border-radius: 0.75rem;
-  }
-`;
 
 export default SearchBar;

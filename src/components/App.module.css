@@ -1,0 +1,35 @@
+.main {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* avoid Chrome to apply iOS Safari viewport bug fix */
+@supports (-webkit-touch-callout: none) {
+  .main {
+    min-height: -webkit-fill-available;
+  }
+}
+
+.content {
+  padding: 1rem 0;
+  margin: 0 auto;
+  min-width: 300px;
+  width: var(--fluid-width);
+  max-width: var(--fixed-width);
+}
+
+.topContainer {
+  position: relative;
+  z-index: 100;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.summaryLoading {
+  margin: 10% 0;
+}

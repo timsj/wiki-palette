@@ -1,5 +1,4 @@
 import { useState } from "react";
-import styled from "styled-components";
 import { IoIosCopy, IoIosCheckmarkCircle } from "react-icons/io";
 import { TbArrowsSort } from "react-icons/tb";
 import { IoMdInformationCircleOutline } from "react-icons/io";
@@ -7,6 +6,7 @@ import { IoMdInformationCircleOutline } from "react-icons/io";
 import { useAppContext } from "../context/appContext";
 import { sortByLuminance, rgbToHex } from "../utils";
 import { ColorPalette } from "../types";
+import styles from "./Palette.module.css";
 
 const Palette = () => {
   const [sortColors, setSortColors] = useState(false);
@@ -26,10 +26,10 @@ const Palette = () => {
       return (
         <div
           key={i}
-          className="palette"
+          className={styles.colorBox}
           style={{ backgroundColor: `rgb(${rgb})` }}
         >
-          <div className="btn-container">
+          <div className={styles.btnContainer}>
             <button
               key={i}
               type="button"
@@ -65,12 +65,12 @@ const Palette = () => {
   };
 
   return (
-    <Styled>
-      <div className="heading">
+    <div className={`card ${styles.palette}`}>
+      <div className={styles.heading}>
         <label className="form-label">
           Color Palette&nbsp;{" "}
           <IoMdInformationCircleOutline
-            className="info-btn"
+            className={styles.infoBtn}
             onClick={() => showModal && showModal()}
           />
         </label>
@@ -87,89 +87,18 @@ const Palette = () => {
           </button>
         )}
       </div>
-      <div className="palette-container">
+      <div className={styles.paletteContainer}>
         {bkgPalette.length > 0 ? (
           renderPalette(sortColors ? sortedPalette : defaultPalette)
         ) : (
-          <p className="info-text">
+          <p className={styles.infoText}>
             Search for a Wikipedia article with a lead image to show a generated
             color palette.
           </p>
         )}
       </div>
-    </Styled>
+    </div>
   );
 };
-
-const Styled = styled.div`
-  padding: 5%;
-  border: transparent;
-  border-radius: var(--border-radius-lg);
-  backdrop-filter: var(--blur);
-  box-shadow: var(--shadow-2);
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-
-  .heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-  }
-
-  label {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0;
-  }
-
-  .info-btn {
-    cursor: pointer;
-  }
-
-  .info-text {
-    margin-top: -0.5em;
-    margin-bottom: 0;
-  }
-
-  .palette-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .palette {
-    border: transparent;
-    width: 120px;
-    height: 120px;
-  }
-
-  .btn-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    transition: var(--transition);
-  }
-
-  .palette-container div:first-child {
-    border-radius: 0.5rem 0 0 0.5rem;
-  }
-
-  .palette-container div:last-child {
-    border-radius: 0 0.5rem 0.5rem 0;
-    margin-left: -1px;
-  }
-
-  .palette-container div:not(:last-child) {
-    border-right: none;
-  }
-
-  .palette-container div:only-child {
-    border-radius: 0.5rem;
-    margin-left: 0;
-  }
-`;
 
 export default Palette;

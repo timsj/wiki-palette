@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
-import styled from "styled-components";
 import { RiExternalLinkLine } from "react-icons/ri";
 
 import { useAppContext } from "../context/appContext";
 import { SelectedSummary } from "../types";
 import { createColorPalette, changeThemeColor } from "../utils";
+import styles from "./Summary.module.css";
 
 interface SelectedSummaryProps {
   data: SelectedSummary;
@@ -60,7 +60,7 @@ const Summary = ({ data }: SelectedSummaryProps) => {
 
   if (type === "disambiguation") {
     return (
-      <Styled>
+      <div className={`card ${styles.summary}`}>
         <h4>{title}</h4>
         <p>
           This is a{" "}
@@ -69,20 +69,20 @@ const Summary = ({ data }: SelectedSummaryProps) => {
           </a>
           , please search again and select a page with a non-ambiguous title.
         </p>
-      </Styled>
+      </div>
     );
   }
 
   return (
-    <Styled>
+    <div className={`card ${styles.summary}`}>
       <h4>{title}</h4>
       {originalImgURL && (
-        <img className="img img-summary" src={originalImgURL} alt={title} />
+        <img className={`img ${styles.imgSummary}`} src={originalImgURL} alt={title} />
       )}
       <canvas className="canvas hidden" ref={canvas}></canvas>
       <p>{extract}</p>
       <a
-        className="external-link"
+        className={styles.externalLink}
         href={pageURL}
         target="_blank"
         rel="noopener noreferrer"
@@ -90,39 +90,8 @@ const Summary = ({ data }: SelectedSummaryProps) => {
         Read the full page on Wikipedia&nbsp;
         <RiExternalLinkLine />
       </a>
-    </Styled>
+    </div>
   );
 };
-
-const Styled = styled.div`
-  padding: 5%;
-  border: transparent;
-  border-radius: var(--border-radius-lg);
-  backdrop-filter: var(--blur);
-  box-shadow: var(--shadow-2);
-  margin-top: 1em;
-
-  h4 {
-    text-align: center;
-  }
-
-  p {
-    margin: 1rem 0;
-  }
-
-  .img-summary {
-    border: transparent;
-    border-radius: var(--border-radius-sm);
-    margin-left: auto;
-    margin-right: auto;
-    max-height: 40vh;
-  }
-
-  .external-link {
-    display: flex;
-    align-items: center;
-    width: fit-content;
-  }
-`;
 
 export default Summary;

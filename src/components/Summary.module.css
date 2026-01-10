@@ -1,0 +1,25 @@
+.summary {
+  margin-top: 1em;
+}
+
+.summary h4 {
+  text-align: center;
+}
+
+.summary p {
+  margin: 1rem 0;
+}
+
+.imgSummary {
+  border: transparent;
+  border-radius: var(--border-radius-sm);
+  margin-left: auto;
+  margin-right: auto;
+  max-height: 40vh;
+}
+
+.externalLink {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+}

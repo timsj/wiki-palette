@@ -1,0 +1,78 @@
+.container label {
+  margin-bottom: 0;
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.input {
+  position: relative;
+}
+
+.clear {
+  position: absolute;
+  bottom: 10%;
+  right: 1%;
+  color: var(--gray-500);
+  background: var(--alt-background);
+  border: none;
+  box-shadow: none;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.clear:hover {
+  color: var(--paragraph);
+}
+
+.results {
+  position: absolute;
+  z-index: 100;
+  width: 90%;
+  margin-top: 0.25rem;
+  filter: drop-shadow(0 1px 5px rgba(0, 0, 0, 0.25));
+}
+
+.noResults {
+  color: var(--gray-400);
+}
+
+.container li {
+  background: var(--alt-background);
+  border: 1px solid var(--alt-background-active);
+  border-bottom: transparent;
+  padding: 0.5rem;
+  background-clip: border-box;
+  user-select: none;
+  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+.noResults:hover {
+  cursor: not-allowed;
+  background-color: var(--alt-background);
+}
+
+.container li:hover {
+  cursor: pointer;
+  background-color: var(--alt-background-hover);
+}
+
+.focused {
+  background-color: var(--alt-background-active);
+}
+
+.container li:first-child {
+  border-radius: 0.75rem 0.75rem 0 0;
+}
+
+.container li:last-child {
+  border-bottom: 1px solid var(--alt-background-active);
+  border-radius: 0 0 0.75rem 0.75rem;
+}
+
+.container li:only-child {
+  border-radius: 0.75rem;
+}

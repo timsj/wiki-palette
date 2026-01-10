@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styles from "./Logo.module.css";
 
 const Logo = () => {
   const handleClick = () => {
@@ -6,29 +6,12 @@ const Logo = () => {
   };
 
   return (
-    <Styled onClick={handleClick}>
-      <img src="/apple-touch-icon.png" alt="" className="logo-icon" />
-      <span className="wiki">Wiki&nbsp;</span>
-      <span className="palette">Palette</span>
-    </Styled>
+    <h1 className={styles.logo} onClick={handleClick}>
+      <img src="/apple-touch-icon.png" alt="" className={styles.icon} />
+      <span>Wiki&nbsp;</span>
+      <span>Palette</span>
+    </h1>
   );
 };
-
-const Styled = styled.h1`
-  display: flex;
-  align-items: center;
-  font-size: 2rem;
-  margin-bottom: 0;
-  user-select: none;
-  color: var(--heading);
-  transition: color 0.3s ease-in-out;
-  cursor: pointer;
-
-  .logo-icon {
-    width: 1em;
-    height: 1em;
-    margin-right: 0.3em;
-  }
-`;
 
 export default Logo;

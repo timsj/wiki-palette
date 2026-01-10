@@ -14,8 +14,7 @@ html {
 
 :root {
   /* fonts */
-  --heading-font: "Quicksand", sans-serif;
-  --body-font: "Quicksand", sans-serif;
+  --font-family: "Quicksand", sans-serif;
   --small: 0.75em;
 
   /* custom palette */
@@ -51,8 +50,6 @@ html {
     0 8px 10px -6px rgb(0 0 0 / 0.1);
 
   /* remaining variables */
-  --black: #222;
-  --white: #fff;
   --red-light: #f8d7da;
   --red-dark: #842029;
   --green-light: #d1e7dd;
@@ -61,7 +58,7 @@ html {
   --border-radius-lg: 0.75rem;
   --border-radius-sm: 0.25rem;
   --transition: 0.3s ease-in-out all;
-  --max-width: 1120px;
+  --transition-color: color 0.3s ease-in-out;
   --fixed-width: 600px;
   --fluid-width: 90vw;
 }
@@ -77,19 +74,18 @@ html {
 }
 
 body {
-  background: var(--background);
-  font-family: var(--body-font);
+  font-family: var(--font-family);
   font-weight: 400;
   line-height: 1.75;
   color: var(--paragraph);
-  transition: color 0.3s ease-in-out;
+  transition: var(--transition-color);
 }
 
 p {
   margin-bottom: 1.5rem;
   max-width: 40em;
   color: var(--paragraph);
-  transition: color 0.3s ease-in-out;
+  transition: var(--transition-color);
 }
 
 h1,
@@ -99,11 +95,11 @@ h4,
 h5 {
   margin: 0;
   margin-bottom: 1.38rem;
-  font-family: var(--heading-font);
+  font-family: var(--font-family);
   font-weight: 600;
   line-height: 1.3;
   color: var(--heading);
-  transition: color 0.3s ease-in-out;
+  transition: var(--transition-color);
 }
 
 h1 {
@@ -144,16 +140,18 @@ ul {
   padding: 0;
 }
 
-.container {
-  width: var(--fluid-width);
-  max-width: var(--max-width);
-  margin: 0 auto;
-}
-
 .img {
   width: 100%;
   display: block;
   object-fit: scale-down;
+}
+
+.card {
+  padding: 5%;
+  border: transparent;
+  border-radius: var(--border-radius-lg);
+  backdrop-filter: var(--blur);
+  box-shadow: var(--shadow-2);
 }
 
 .btn {
@@ -205,11 +203,10 @@ ul {
 
 .form-label {
   display: block;
-  font-size: var(--small-text);
   font-weight: 600;
   margin-bottom: 0.5rem;
   color: var(--paragraph);
-  transition: color 0.3s ease-in-out;
+  transition: var(--transition-color);
 }
 
 .form-input {
@@ -225,7 +222,7 @@ ul {
 ::placeholder {
   font-family: inherit;
   color: var(--placeholder);
-  transition: color 0.3s ease-in-out;
+  transition: var(--transition-color);
 }
 
 .hidden {

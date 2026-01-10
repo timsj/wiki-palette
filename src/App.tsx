@@ -1,5 +1,3 @@
-import styled from "styled-components";
-
 import {
   Loading,
   Alert,
@@ -12,17 +10,18 @@ import {
   Modal,
 } from "./components";
 import { useAppContext } from "./context/appContext";
+import styles from "./components/App.module.css";
 
 const App = () => {
   const { isSummaryLoading, showAlert, summary, isModalOpen } = useAppContext();
 
   return (
-    <Styled>
+    <main className={styles.main}>
       <Background />
       {isModalOpen && <Modal />}
-      <div className="content">
-        <div className="top-container">
-          <div className="logo-container">
+      <div className={styles.content}>
+        <div className={`card ${styles.topContainer}`}>
+          <div className={styles.logoContainer}>
             <Logo />
           </div>
           <SearchBar
@@ -33,7 +32,7 @@ const App = () => {
           {showAlert && <Alert />}
         </div>
         {isSummaryLoading && (
-          <div className="summary-loading">
+          <div className={styles.summaryLoading}>
             <Loading center />
           </div>
         )}
@@ -41,47 +40,8 @@ const App = () => {
         <Palette />
       </div>
       <Footer />
-    </Styled>
+    </main>
   );
 };
-
-const Styled = styled.main`
-  position: relative;
-  min-height: 100vh;
-
-  /* avoid Chrome to apply iOS Safari viewport bug fix */
-  @supports (-webkit-touch-callout: none) {
-    min-height: -webkit-fill-available;
-  }
-
-  .content {
-    padding: 1rem 0;
-    margin: 0 auto;
-    min-width: 300px;
-    width: var(--fluid-width);
-    max-width: var(--fixed-width);
-  }
-
-  .top-container {
-    position: relative;
-    z-index: 100;
-    padding: 5%;
-    border: transparent;
-    border-radius: var(--border-radius-lg);
-    backdrop-filter: var(--blur);
-    box-shadow: var(--shadow-2);
-  }
-
-  .logo-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1rem;
-  }
-
-  .summary-loading {
-    margin: 10% 0;
-  }
-`;
 
 export default App;
