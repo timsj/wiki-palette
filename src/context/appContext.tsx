@@ -1,5 +1,4 @@
 import React, { useContext, useReducer } from "react";
-import { scroller } from "react-scroll";
 
 import { ActionType } from "./action-types";
 import reducers from "./reducers";
@@ -94,14 +93,6 @@ const AppProvider: React.FC<ProviderChild> = ({ children }) => {
 
   const showModal = () => {
     dispatch({ type: ActionType.SHOW_MODAL });
-
-    setTimeout(() => {
-      // scrolls to top of modal-content div (for smaller screens)
-      scroller.scrollTo("modal-scroll", {
-        smooth: true,
-        offset: -100, // number in px
-      });
-    }, 50); // wait until modal element is added to DOM
   };
 
   const closeModal = () => dispatch({ type: ActionType.HIDE_MODAL });

@@ -1,8 +1,12 @@
 import styled from "styled-components";
 
 const Logo = () => {
+  const handleClick = () => {
+    window.location.reload();
+  };
+
   return (
-    <Styled>
+    <Styled onClick={handleClick}>
       <img src="/apple-touch-icon.png" alt="" className="logo-icon" />
       <span className="wiki">Wiki&nbsp;</span>
       <span className="palette">Palette</span>
@@ -18,6 +22,7 @@ const Styled = styled.h1`
   user-select: none;
   color: var(--heading);
   transition: color 0.3s ease-in-out;
+  cursor: pointer;
 
   .logo-icon {
     width: 1em;

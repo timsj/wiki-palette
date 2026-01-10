@@ -1,38 +1,42 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { Element } from "react-scroll";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { CgClose } from "react-icons/cg";
 
 import { useAppContext } from "../context/appContext";
 
+const ANIMATION_DURATION = 200;
+
 const Modal = () => {
   const { closeModal } = useAppContext();
-  const modalRef = useRef<HTMLDivElement | null>(null);
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
+  const [isClosing, setIsClosing] = useState(false);
 
   useEffect(() => {
-    // enables ability for user to click outside of modal to hide modal
-    document.addEventListener("mousedown", handleClickOutside);
-    // cleanup function
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    dialogRef.current?.showModal();
   }, []);
 
-  const handleClickOutside = (e: MouseEvent) => {
-    // closes dropdown if click is registered outside of the modal
-    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
       closeModal && closeModal();
+    }, ANIMATION_DURATION);
+  };
+
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDialogElement>) => {
+    if (e.target === dialogRef.current) {
+      handleClose();
     }
   };
 
   return (
-    <Styled>
-      <div className="modal-content" ref={modalRef}>
-        <Element name="modal-scroll" />
+    <Styled ref={dialogRef} onClick={handleBackdropClick} className={isClosing ? "closing" : ""}>
+      <div className="modal-content">
         <div className="btn-container">
           <button
             type="button"
             className="btn btn-alt"
-            onClick={() => closeModal && closeModal()}
+            onClick={handleClose}
           >
             <CgClose />
           </button>
@@ -84,26 +88,62 @@ const Modal = () => {
   );
 };
 
-const Styled = styled.div`
+const Styled = styled.dialog`
+  /* Fill viewport to act as clickable backdrop */
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  border: none;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(5px);
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(5px);
-  transition: var(--transition);
-  z-index: 1000;
-  cursor: pointer;
+  padding: 1rem;
+  animation: fadeIn ${ANIMATION_DURATION}ms ease-out;
+
+  &.closing {
+    animation: fadeOut ${ANIMATION_DURATION}ms ease-out forwards;
+  }
+
+  &::backdrop {
+    display: none;
+  }
 
   .modal-content {
     position: relative;
-    cursor: auto;
     background: rgba(0, 0, 0, 0.5);
     border-radius: var(--border-radius-lg);
     padding: 1rem 2rem;
-    margin: 0 1rem;
+    animation: scaleIn ${ANIMATION_DURATION}ms ease-out;
+  }
+
+  &.closing .modal-content {
+    animation: scaleOut ${ANIMATION_DURATION}ms ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  @keyframes scaleIn {
+    from { transform: scale(0.95); }
+    to { transform: scale(1); }
+  }
+
+  @keyframes scaleOut {
+    from { transform: scale(1); }
+    to { transform: scale(0.95); }
   }
 
   .modal-text {
