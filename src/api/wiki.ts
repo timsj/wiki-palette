@@ -53,19 +53,33 @@ export const summaryWiki = async (selectedTitle: string) => {
 };
 
 export const randomWiki = async () => {
-  // future: figure out how to only query for random pages with a lead image
-
+  // Fetch multiple random articles with image info, filter to those with images
   const { data } = await axios.get("https://en.wikipedia.org/w/api.php", {
     params: {
       action: "query",
-      list: "random",
+      generator: "random",
+      grnnamespace: 0, // Main/article namespace
+      grnlimit: 20, // Fetch 20 random articles
+      prop: "pageimages",
+      piprop: "thumbnail",
+      pithumbsize: 100, // Small size just for checking existence
       format: "json",
-      rnnamespace: 0, // Main/article namespace: https://en.wikipedia.org/wiki/Wikipedia:Namespace
-      rnlimit: 1, // Limit response to 1 random result
       origin: "*",
     },
   });
 
-  const title: string = data.query.random[0].title;
-  return title;
+  const pages = Object.values(data.query.pages) as Array<{
+    title: string;
+    thumbnail?: { source: string };
+  }>;
+
+  // Filter to pages that have a thumbnail image
+  const pagesWithImages = pages.filter((page) => page.thumbnail);
+
+  if (pagesWithImages.length > 0) {
+    return pagesWithImages[0].title;
+  }
+
+  // Fallback if none have images (rare with 20 articles)
+  return pages[0].title;
 };

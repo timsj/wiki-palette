@@ -13,7 +13,7 @@ const Logo = () => {
 const Styled = styled.h1`
   display: flex;
   align-items: center;
-  font-size: 2.5rem;
+  font-size: 2rem;
   margin-bottom: 0;
   user-select: none;
   color: var(--heading);
