@@ -87,14 +87,23 @@ export const changeThemeColor = (palette: ColorPalette[]) => {
   //change html background for iOS overscroll areas
   document.documentElement.style.background = color;
 
-  // calculate average luminance of background colors (first 2-3 from palette)
-  const bgColors = palette.slice(0, 3);
-  const luminance =
-    bgColors.reduce((sum, color) => sum + calcRelativeLuminance(color), 0) /
-    bgColors.length;
+  // calculate luminance for dark mode detection
+  const firstColorLuminance = calcRelativeLuminance(palette[0]);
 
-  // toggle dark class based on background luminance
-  document.documentElement.classList.toggle("dark", luminance < 0.25);
+  // if most dominant color is very dark, force dark mode
+  // otherwise, use average luminance of top 2-3 colors
+  let useDarkMode = false;
+  if (firstColorLuminance < 0.025) {
+    useDarkMode = true;
+  } else {
+    const bgColors = palette.slice(0, 3);
+    const avgLuminance =
+      bgColors.reduce((sum, color) => sum + calcRelativeLuminance(color), 0) /
+      bgColors.length;
+    useDarkMode = avgLuminance < 0.15;
+  }
+
+  document.documentElement.classList.toggle("dark", useDarkMode);
 };
 
 export const rgbToHex = (r: number, g: number, b: number): string => {
