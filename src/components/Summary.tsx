@@ -17,11 +17,15 @@ const Summary = ({ data }: SelectedSummaryProps) => {
   const canvas = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    // if there is a lead image, handle image
-    if (thumbnailImgURL) handleImage();
-    // if no image, set empty background color palette and default meta theme
-    setBackground && setBackground([]);
-    changeThemeColor([[255, 255, 254]]);
+    if (thumbnailImgURL) {
+      // if there is a lead image, handle image
+      // keep previous colors until new image loads
+      handleImage();
+    } else {
+      // if no image, set empty background color palette and default meta theme
+      setBackground && setBackground([]);
+      changeThemeColor([[255, 255, 254]]);
+    }
   }, [thumbnailImgURL]);
 
   const handleImage = () => {
