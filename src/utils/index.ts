@@ -73,37 +73,41 @@ export const sortByLuminance = (palette: ColorPalette[]): ColorPalette[] => {
   );
 };
 
+// luminance thresholds for theme detection
+const VERY_DARK_THRESHOLD = 0.025;
+const DARK_MODE_THRESHOLD = 0.15;
+
 export const changeThemeColor = (palette: ColorPalette[]) => {
   if (!palette.length) return;
 
-  //grab dominant color from generated color palette
+  // grab dominant color from generated color palette
   const [r, g, b] = palette[0];
   const color = `rgb(${r},${g},${b})`;
 
-  //change html theme-color meta value
+  // change html theme-color meta value
   const metaThemeColor = document.querySelector("meta[name=theme-color]");
   metaThemeColor?.setAttribute("content", color);
 
-  //change html background for iOS overscroll areas
+  // change html background for iOS overscroll areas
   document.documentElement.style.background = color;
 
-  // calculate luminance for dark mode detection
-  const firstColorLuminance = calcRelativeLuminance(palette[0]);
+  // calculate luminances for top 2-3 colors
+  const topColors = palette.slice(0, 3);
+  const luminances = topColors.map((c) => calcRelativeLuminance(c));
+  const firstColorLuminance = luminances[0];
+  const avgLuminance =
+    luminances.reduce((sum, l) => sum + l, 0) / luminances.length;
 
-  // if most dominant color is very dark, force dark mode
-  // otherwise, use average luminance of top 2-3 colors
-  let useDarkMode = false;
-  if (firstColorLuminance < 0.025) {
-    useDarkMode = true;
-  } else {
-    const bgColors = palette.slice(0, 3);
-    const avgLuminance =
-      bgColors.reduce((sum, color) => sum + calcRelativeLuminance(color), 0) /
-      bgColors.length;
-    useDarkMode = avgLuminance < 0.15;
-  }
+  // determine dark mode: force if dominant color is very dark, otherwise use average
+  const useDarkMode =
+    firstColorLuminance < VERY_DARK_THRESHOLD ||
+    avgLuminance < DARK_MODE_THRESHOLD;
+
+  // check if all top colors are nearly black (for card visibility)
+  const isVeryDark = luminances.every((l) => l < VERY_DARK_THRESHOLD);
 
   document.documentElement.classList.toggle("dark", useDarkMode);
+  document.documentElement.classList.toggle("very-dark", isVeryDark);
 };
 
 export const rgbToHex = (r: number, g: number, b: number): string => {

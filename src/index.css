@@ -154,6 +154,11 @@ ul {
   box-shadow: var(--shadow-2);
 }
 
+:root.very-dark .card {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px -1px rgb(255 255 255 / 0.1), 0 2px 4px -2px rgb(255 255 255 / 0.1);
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
