@@ -12,7 +12,7 @@ const Palette = () => {
   const [sortColors, setSortColors] = useState(false);
   const [clickedBtn, setClickedBtn] = useState<number | null>(null);
   const [isCopied, setIsCopied] = useState(false);
-  const { bkgPalette, showModal } = useAppContext();
+  const { bkgPalette, openModal } = useAppContext();
 
   const defaultPalette = bkgPalette; // already sorted by dominance using quantize func
   const sortedPalette = sortByLuminance(bkgPalette);
@@ -71,7 +71,7 @@ const Palette = () => {
           Color Palette&nbsp;{" "}
           <IoMdInformationCircleOutline
             className={styles.infoBtn}
-            onClick={() => showModal && showModal()}
+            onClick={() => openModal && openModal()}
           />
         </label>
         {bkgPalette.length > 0 && (

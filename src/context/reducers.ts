@@ -51,7 +51,7 @@ const reducers = (state: GlobalState, action: Action): GlobalState => {
       };
     case ActionType.SET_BKG_PALETTE:
       return { ...state, bkgPalette: action.payload.bkgPalette };
-    case ActionType.SHOW_MODAL:
+    case ActionType.OPEN_MODAL:
       return { ...state, isModalOpen: true };
     case ActionType.HIDE_MODAL:
       return { ...state, isModalOpen: false };

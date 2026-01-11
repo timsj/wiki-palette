@@ -21,7 +21,7 @@ export interface GlobalState {
   bkgPalette: ColorPalette[];
   setBackground?: (bkgPalette: ColorPalette[]) => void;
   isModalOpen: boolean;
-  showModal?: () => void;
+  openModal?: () => void;
   closeModal?: () => void;
 }
 
@@ -91,8 +91,8 @@ const AppProvider: React.FC<ProviderChild> = ({ children }) => {
     dispatch({ type: ActionType.SET_BKG_PALETTE, payload: { bkgPalette } });
   };
 
-  const showModal = () => {
-    dispatch({ type: ActionType.SHOW_MODAL });
+  const openModal = () => {
+    dispatch({ type: ActionType.OPEN_MODAL });
   };
 
   const closeModal = () => dispatch({ type: ActionType.HIDE_MODAL });
@@ -105,7 +105,7 @@ const AppProvider: React.FC<ProviderChild> = ({ children }) => {
         getSummary,
         closeDropdown,
         setBackground,
-        showModal,
+        openModal,
         closeModal,
       }}
     >

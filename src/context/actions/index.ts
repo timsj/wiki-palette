@@ -52,8 +52,8 @@ interface SetBackgroundPalette {
   };
 }
 
-interface ShowModal {
-  type: ActionType.SHOW_MODAL;
+interface OpenModal {
+  type: ActionType.OPEN_MODAL;
 }
 
 interface HideModal {
@@ -70,5 +70,5 @@ export type Action =
   | GetSummarySuccess
   | GetSummaryError
   | SetBackgroundPalette
-  | ShowModal
+  | OpenModal
   | HideModal;
