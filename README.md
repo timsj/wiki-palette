@@ -2,7 +2,7 @@
 
 A web app that generates color palettes from Wikipedia article images.
 
-Search for any Wikipedia article, and Wiki Palette [extracts the dominant colors](https://en.wikipedia.org/wiki/Color_quantization) from its lead image using a modified median cut quantization algorithm.
+Search for any Wikipedia article, and Wiki Palette [extracts the dominant colors](https://en.wikipedia.org/wiki/Color_quantization) from its lead image using an octree or modified median cut quantization algorithm.
 
 <br>
 <p align="center">
@@ -19,6 +19,6 @@ Search for any Wikipedia article, and Wiki Palette [extracts the dominant colors
 
 ## How It Works
 
-The color quantization algorithm used is a TypeScript implementation of the [modified median cut algorithm](http://leptonica.org/papers/mediancut.pdf) from the [Leptonica](http://www.leptonica.org) library. It recursively partitions the color space to identify the most dominant colors in an image.
+The color quantization algorithms used are TypeScript implementations of the [octree](http://www.leptonica.org/papers/colorquant.pdf) and [modified median cut (MMC)](http://leptonica.org/papers/mediancut.pdf) methods. Octree incrementally groups color clusters into a hierarchical tree structure and prunes it based on color frequency, while MMC recursively partitions the color space to identify the most dominant colors in an image.
 
 Colors can be sorted by either dominance (how frequently the color appears in the image) or [relative luminance](https://en.wikipedia.org/wiki/Relative_luminance#Relative_luminance_and_%22gamma_encoded%22_colorspaces) (the perceived brightness of a color relative to the other colors in the quantized palette).

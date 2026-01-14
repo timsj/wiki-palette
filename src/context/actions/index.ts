@@ -1,6 +1,10 @@
 import { ActionType } from "../action-types";
-import { SearchResults, SelectedSummary, ColorPalette } from "../../types";
-import { QuantizeMethod } from "../../utils";
+import {
+  SearchResults,
+  SelectedSummary,
+  ColorPalette,
+  QuantizeMethod,
+} from "../../types";
 
 interface SearchWikiBegin {
   type: ActionType.SEARCH_WIKI_BEGIN;

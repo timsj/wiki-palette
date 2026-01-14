@@ -55,15 +55,22 @@
 .infoText {
   margin-top: -0.5em;
   margin-bottom: 0;
-  width: 100%;
+  flex: 1 0 100%;
+  max-width: none;
   padding: 0.25rem;
+  text-align: center;
 }
 
 .paletteContainer {
   display: flex;
   flex-wrap: wrap;
+  flex-grow: 1;
   border-radius: 0.5rem;
   overflow: hidden;
+}
+
+.paletteContainer.hasPalette {
+  border: 3px solid var(--border-subtle);
 }
 
 .colorBox {
@@ -72,6 +79,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border-right: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.colorBox:nth-child(4n) {
+  border-right: none;
+}
+
+.colorBox:nth-child(n + 13) {
+  border-bottom: none;
+}
+
+.emptyBox {
+  background-color: transparent;
 }
 
 .btnContainer {

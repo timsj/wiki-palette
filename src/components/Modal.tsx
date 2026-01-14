@@ -46,7 +46,8 @@ const Modal = () => {
           </button>
         </div>
         <p className={styles.text} style={{ marginTop: "0.5rem" }}>
-          The color palettes shown here are generated with{" "}
+          The color palettes shown here return up to 16 of the most dominant
+          colors in a given image. They are generated using{" "}
           <a
             className={styles.externalLink}
             href="https://en.wikipedia.org/wiki/Color_quantization"
@@ -56,22 +57,32 @@ const Modal = () => {
             color quantization&nbsp;
             <RiExternalLinkLine />
           </a>{" "}
-          using a method based on the{" "}
+          methods based on the{" "}
           <a
             className={styles.externalLink}
             href="http://www.leptonica.org/papers/mediancut.pdf"
             target="_blank"
             rel="noopener noreferrer"
           >
-            modified median cut&nbsp;
+            modified median cut (MMC)&nbsp;
             <RiExternalLinkLine />
           </a>{" "}
-          algorithm created by Dan Bloomberg.
+          and{" "}
+          <a
+            className={styles.externalLink}
+            href="http://www.leptonica.org/papers/colorquant.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            octree&nbsp;
+            <RiExternalLinkLine />
+          </a>{" "}
+          algorithms.
         </p>
         <p className={styles.text}>
           By default, the palettes are sorted by dominance, meaning that the
-          left-most color appears most frequently in the input image, whereas
-          the right-most color appears least frequently.
+          top-left color appears most frequently in the input image, whereas the
+          the bottom-right color appears least frequently.
         </p>
         <p className={styles.text} style={{ marginBottom: "0.5rem" }}>
           Optionally, palettes can be sorted by{" "}
@@ -85,7 +96,8 @@ const Modal = () => {
             <RiExternalLinkLine />
           </a>
           . This means that the colors of any given palette will be sorted
-          relatively from lightest to darkest, left to right.
+          relative to a reference white from lightest to darkest, top-left to
+          bottom-right.
         </p>
       </div>
     </dialog>

@@ -1,8 +1,6 @@
 import { quantize } from "./quantize";
 import { octreeQuantize } from "./octree";
-import { ColorPalette, Pixel } from "../types";
-
-export type QuantizeMethod = "mmcq" | "octree";
+import { ColorPalette, Pixel, QuantizeMethod } from "../types";
 
 export const debounce = (func: Function, delay = 1000) => {
   let timeoutId: ReturnType<typeof setTimeout>;

@@ -2,9 +2,13 @@ import React, { useContext, useReducer } from "react";
 
 import { ActionType } from "./action-types";
 import reducers from "./reducers";
-import { SearchResults, SelectedSummary, ColorPalette } from "../types";
+import {
+  SearchResults,
+  SelectedSummary,
+  ColorPalette,
+  QuantizeMethod,
+} from "../types";
 import { searchWiki, summaryWiki, randomWiki } from "../api/wiki";
-import { QuantizeMethod } from "../utils";
 
 // set global state types
 export interface GlobalState {

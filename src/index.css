@@ -29,6 +29,7 @@ html {
   --button: rgba(250, 250, 250, 0.25);
   --button-hover: rgba(250, 250, 250, 0.1);
   --button-text: var(--paragraph);
+  --border-subtle: rgba(128, 128, 128, 0.3);
 
   /* gray */
   --gray-50: #f9fafb;
@@ -156,7 +157,8 @@ ul {
 
 :root.very-dark .card {
   background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 6px -1px rgb(255 255 255 / 0.1), 0 2px 4px -2px rgb(255 255 255 / 0.1);
+  box-shadow: 0 4px 6px -1px rgb(255 255 255 / 0.1),
+    0 2px 4px -2px rgb(255 255 255 / 0.1);
 }
 
 .btn {
@@ -221,7 +223,8 @@ ul {
   border-radius: var(--border-radius-lg);
   background: var(--alt-background);
   color: var(--paragraph);
-  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out,
+    color 0.3s ease-in-out;
 }
 
 ::placeholder {

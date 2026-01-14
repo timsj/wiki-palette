@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 
 import { useAppContext } from "../context/appContext";
 import { SelectedSummary } from "../types";
 import { createColorPalette, changeThemeColor } from "../utils";
+import ImageModal from "./ImageModal";
 import styles from "./Summary.module.css";
 
 interface SelectedSummaryProps {
@@ -16,6 +17,7 @@ const Summary = ({ data }: SelectedSummaryProps) => {
   const { setBackground, quantizeMethod } = useAppContext();
   const canvas = useRef<HTMLCanvasElement | null>(null);
   const imgDataRef = useRef<ImageData | null>(null);
+  const [showImageModal, setShowImageModal] = useState(false);
 
   useEffect(() => {
     if (thumbnailImgURL) {
@@ -108,6 +110,14 @@ const Summary = ({ data }: SelectedSummaryProps) => {
           className={`img ${styles.imgSummary}`}
           src={originalImgURL}
           alt={title}
+          onClick={() => setShowImageModal(true)}
+        />
+      )}
+      {showImageModal && originalImgURL && (
+        <ImageModal
+          src={originalImgURL}
+          alt={title}
+          onClose={() => setShowImageModal(false)}
         />
       )}
       <canvas className="canvas hidden" ref={canvas}></canvas>

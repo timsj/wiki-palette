@@ -13,12 +13,21 @@
 }
 
 .imgSummary {
-  border: transparent;
-  border-radius: var(--border-radius-sm);
+  display: block;
+  width: auto;
+  max-width: 100%;
+  border: 3px solid var(--border-subtle);
+  border-radius: 0.5rem;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 1rem;
   max-height: 40vh;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.imgSummary:hover {
+  opacity: 0.9;
 }
 
 .externalLink {

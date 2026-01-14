@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IoIosCopy, IoIosCheckmarkCircle } from "react-icons/io";
+import { IoIosCheckmarkCircle } from "react-icons/io";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 
 import { useAppContext } from "../context/appContext";
@@ -18,39 +18,50 @@ const Palette = () => {
   const sortedPalette = sortByLuminance(bkgPalette);
 
   const renderPalette = (palette: ColorPalette[]) => {
-    return palette.map((color, i) => {
-      const [r, g, b] = color;
-      const rgb = `${r}, ${g}, ${b}`;
-      const hex = rgbToHex(r, g, b);
+    const gridSize = 16;
+    const boxes = [];
 
-      return (
-        <div
-          key={i}
-          className={styles.colorBox}
-          style={{ backgroundColor: `rgb(${rgb})` }}
-        >
-          <div className={styles.btnContainer}>
-            <button
-              key={i}
-              type="button"
-              className="btn btn-alt text-small"
-              data-value={hex}
-              onClick={(e) => handleColorClick(e, i)}
-            >
-              {i === clickedBtn && isCopied ? (
-                <>
-                  <IoIosCheckmarkCircle /> &nbsp;copied!
-                </>
-              ) : (
-                <>
-                  <IoIosCopy /> &nbsp;{hex}
-                </>
-              )}
-            </button>
+    for (let i = 0; i < gridSize; i++) {
+      const color = palette[i];
+
+      if (color) {
+        const [r, g, b] = color;
+        const rgb = `${r}, ${g}, ${b}`;
+        const hex = rgbToHex(r, g, b);
+
+        boxes.push(
+          <div
+            key={i}
+            className={styles.colorBox}
+            style={{ backgroundColor: `rgb(${rgb})` }}
+          >
+            <div className={styles.btnContainer}>
+              <button
+                key={i}
+                type="button"
+                className="btn btn-alt text-small"
+                data-value={hex}
+                onClick={(e) => handleColorClick(e, i)}
+              >
+                {i === clickedBtn && isCopied ? (
+                  <>
+                    <IoIosCheckmarkCircle /> &nbsp;copied!
+                  </>
+                ) : (
+                  hex
+                )}
+              </button>
+            </div>
           </div>
-        </div>
-      );
-    });
+        );
+      } else {
+        boxes.push(
+          <div key={i} className={`${styles.colorBox} ${styles.emptyBox}`} />
+        );
+      }
+    }
+
+    return boxes;
   };
 
   const handleColorClick = async (e: React.MouseEvent, i: number) => {
@@ -90,17 +101,21 @@ const Palette = () => {
               <button
                 type="button"
                 className={`${styles.methodOption} ${
-                  quantizeMethod === "mmcq" ? styles.active : ""
+                  quantizeMethod === "mmc" ? styles.active : ""
                 }`}
-                onClick={() => setQuantizeMethod && setQuantizeMethod("mmcq")}
+                onClick={() => setQuantizeMethod && setQuantizeMethod("mmc")}
               >
-                MMCQ
+                MMC
               </button>
             </div>
           </div>
         )}
       </div>
-      <div className={styles.paletteContainer}>
+      <div
+        className={`${styles.paletteContainer} ${
+          bkgPalette.length > 0 ? styles.hasPalette : ""
+        }`}
+      >
         {bkgPalette.length > 0 ? (
           renderPalette(sortColors ? sortedPalette : defaultPalette)
         ) : (
