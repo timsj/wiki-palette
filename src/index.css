@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Quicksand:400,600");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap");
 
 *,
 ::after,
@@ -14,7 +14,8 @@ html {
 
 :root {
   /* fonts */
-  --font-family: "Quicksand", sans-serif;
+  --font-family: "IBM Plex Sans", sans-serif;
+  --font-family-mono: "IBM Plex Mono", monospace;
   --small: 0.75em;
 
   /* custom palette */
@@ -58,7 +59,7 @@ html {
   --blur: blur(100px);
   --border-radius-lg: 0.75rem;
   --border-radius-sm: 0.25rem;
-  --transition: 0.3s ease-in-out all;
+  --transition: 0.1s ease-in-out all;
   --transition-color: color 0.3s ease-in-out;
   --fixed-width: 600px;
   --fluid-width: 90vw;

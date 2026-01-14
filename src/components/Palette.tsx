@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { IoIosCheckmarkCircle } from "react-icons/io";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 
 import { useAppContext } from "../context/appContext";
@@ -43,13 +42,7 @@ const Palette = () => {
                 data-value={hex}
                 onClick={(e) => handleColorClick(e, i)}
               >
-                {i === clickedBtn && isCopied ? (
-                  <>
-                    <IoIosCheckmarkCircle /> &nbsp;copied!
-                  </>
-                ) : (
-                  hex
-                )}
+                {i === clickedBtn && isCopied ? <>copied!</> : hex}
               </button>
             </div>
           </div>

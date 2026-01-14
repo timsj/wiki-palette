@@ -59,6 +59,7 @@
   max-width: none;
   padding: 0.25rem;
   text-align: center;
+  font-family: var(--font-family);
 }
 
 .paletteContainer {
@@ -67,6 +68,7 @@
   flex-grow: 1;
   border-radius: 0.5rem;
   overflow: hidden;
+  font-family: var(--font-family-mono);
 }
 
 .paletteContainer.hasPalette {
@@ -118,7 +120,7 @@
 .methodOption {
   padding: 0.35rem 0.6rem;
   font-size: var(--small);
-  font-weight: 200;
+  font-weight: 400;
   font-family: var(--font-family);
   cursor: pointer;
   background: var(--button-hover);
