@@ -1,5 +1,6 @@
 import { ActionType } from "../action-types";
 import { SearchResults, SelectedSummary, ColorPalette } from "../../types";
+import { QuantizeMethod } from "../../utils";
 
 interface SearchWikiBegin {
   type: ActionType.SEARCH_WIKI_BEGIN;
@@ -60,6 +61,13 @@ interface HideModal {
   type: ActionType.HIDE_MODAL;
 }
 
+interface SetQuantizeMethod {
+  type: ActionType.SET_QUANTIZE_METHOD;
+  payload: {
+    method: QuantizeMethod;
+  };
+}
+
 export type Action =
   | SearchWikiBegin
   | SearchWikiSuccess
@@ -71,4 +79,5 @@ export type Action =
   | GetSummaryError
   | SetBackgroundPalette
   | OpenModal
-  | HideModal;
+  | HideModal
+  | SetQuantizeMethod;

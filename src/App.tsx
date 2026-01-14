@@ -31,13 +31,16 @@ const App = () => {
           />
           {showAlert && <Alert />}
         </div>
-        {isSummaryLoading && (
-          <div className={styles.summaryLoading}>
-            <Loading center />
-          </div>
-        )}
-        {summary && <Summary data={summary} />}
-        <Palette />
+        <div className={`${styles.resultsContainer} ${summary || isSummaryLoading ? styles.hasSummary : ""}`}>
+          {isSummaryLoading ? (
+            <div className={`card ${styles.summaryLoading}`}>
+              <Loading center />
+            </div>
+          ) : (
+            summary && <Summary data={summary} />
+          )}
+          <Palette />
+        </div>
       </div>
       <Footer />
     </main>

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { IoIosCopy, IoIosCheckmarkCircle } from "react-icons/io";
-import { TbArrowsSort } from "react-icons/tb";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 
 import { useAppContext } from "../context/appContext";
@@ -12,7 +11,8 @@ const Palette = () => {
   const [sortColors, setSortColors] = useState(false);
   const [clickedBtn, setClickedBtn] = useState<number | null>(null);
   const [isCopied, setIsCopied] = useState(false);
-  const { bkgPalette, openModal } = useAppContext();
+  const { bkgPalette, openModal, quantizeMethod, setQuantizeMethod } =
+    useAppContext();
 
   const defaultPalette = bkgPalette; // already sorted by dominance using quantize func
   const sortedPalette = sortByLuminance(bkgPalette);
@@ -67,24 +67,37 @@ const Palette = () => {
   return (
     <div className={`card ${styles.palette}`}>
       <div className={styles.heading}>
-        <label className="form-label">
-          Color Palette&nbsp;{" "}
+        <h5>
+          Color Palette&nbsp;
           <IoMdInformationCircleOutline
             className={styles.infoBtn}
             onClick={() => openModal && openModal()}
           />
-        </label>
+        </h5>
         {bkgPalette.length > 0 && (
-          <button
-            type="button"
-            className="btn btn-hover text-small"
-            onClick={() => setSortColors(!sortColors)}
-          >
-            <TbArrowsSort />
-            &nbsp;
-            {sortColors ? "Sort by dominance" : "Sort by luminance"}
-            &nbsp;
-          </button>
+          <div className={styles.controlGroup}>
+            <span className={styles.controlLabel}>Quantization method:</span>
+            <div className={styles.methodSwitch}>
+              <button
+                type="button"
+                className={`${styles.methodOption} ${
+                  quantizeMethod === "octree" ? styles.active : ""
+                }`}
+                onClick={() => setQuantizeMethod && setQuantizeMethod("octree")}
+              >
+                Octree
+              </button>
+              <button
+                type="button"
+                className={`${styles.methodOption} ${
+                  quantizeMethod === "mmcq" ? styles.active : ""
+                }`}
+                onClick={() => setQuantizeMethod && setQuantizeMethod("mmcq")}
+              >
+                MMCQ
+              </button>
+            </div>
+          </div>
         )}
       </div>
       <div className={styles.paletteContainer}>
@@ -97,6 +110,31 @@ const Palette = () => {
           </p>
         )}
       </div>
+      {bkgPalette.length > 0 && (
+        <div className={styles.controlGroup}>
+          <span className={styles.controlLabel}>Sort palette by:</span>
+          <div className={styles.methodSwitch}>
+            <button
+              type="button"
+              className={`${styles.methodOption} ${
+                !sortColors ? styles.active : ""
+              }`}
+              onClick={() => setSortColors(false)}
+            >
+              Dominance
+            </button>
+            <button
+              type="button"
+              className={`${styles.methodOption} ${
+                sortColors ? styles.active : ""
+              }`}
+              onClick={() => setSortColors(true)}
+            >
+              Luminance
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -13,8 +13,9 @@ interface SelectedSummaryProps {
 const Summary = ({ data }: SelectedSummaryProps) => {
   const { type, title, extract, pageURL, originalImgURL, thumbnailImgURL } =
     data;
-  const { setBackground } = useAppContext();
+  const { setBackground, quantizeMethod } = useAppContext();
   const canvas = useRef<HTMLCanvasElement | null>(null);
+  const imgDataRef = useRef<ImageData | null>(null);
 
   useEffect(() => {
     if (thumbnailImgURL) {
@@ -52,20 +53,42 @@ const Summary = ({ data }: SelectedSummaryProps) => {
           canvas.current.height
         );
 
-        // send image data to palette creation function
-        if (imgData && setBackground) {
-          const palette = createColorPalette(imgData.data, 4);
-          setBackground(palette);
-          changeThemeColor(palette);
+        // store image data for re-quantization when method changes
+        if (imgData) {
+          imgDataRef.current = imgData;
+
+          // send image data to palette creation function
+          if (setBackground) {
+            const palette = createColorPalette(
+              imgData.data,
+              16,
+              quantizeMethod
+            );
+            setBackground(palette);
+            changeThemeColor(palette);
+          }
         }
       }
     };
   };
 
+  // re-extract palette when quantization method changes
+  useEffect(() => {
+    if (imgDataRef.current && setBackground) {
+      const palette = createColorPalette(
+        imgDataRef.current.data,
+        16,
+        quantizeMethod
+      );
+      setBackground(palette);
+      changeThemeColor(palette);
+    }
+  }, [quantizeMethod]);
+
   if (type === "disambiguation") {
     return (
       <div className={`card ${styles.summary}`}>
-        <h4>{title}</h4>
+        <h5>{title}</h5>
         <p>
           This is a{" "}
           <a href={pageURL} target="_blank" rel="noopener noreferrer">
@@ -79,9 +102,13 @@ const Summary = ({ data }: SelectedSummaryProps) => {
 
   return (
     <div className={`card ${styles.summary}`}>
-      <h4>{title}</h4>
+      <h5>{title}</h5>
       {originalImgURL && (
-        <img className={`img ${styles.imgSummary}`} src={originalImgURL} alt={title} />
+        <img
+          className={`img ${styles.imgSummary}`}
+          src={originalImgURL}
+          alt={title}
+        />
       )}
       <canvas className="canvas hidden" ref={canvas}></canvas>
       <p>{extract}</p>

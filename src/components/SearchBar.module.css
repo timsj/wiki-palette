@@ -9,6 +9,13 @@
   margin-bottom: 1rem;
 }
 
+@media (min-width: 900px) {
+  .container {
+    max-width: 550px;
+    margin: 0 auto;
+  }
+}
+
 .input {
   position: relative;
 }
@@ -31,7 +38,7 @@
 .results {
   position: absolute;
   z-index: 100;
-  width: 90%;
+  width: 100%;
   margin-top: 0.25rem;
   filter: drop-shadow(0 1px 5px rgba(0, 0, 0, 0.25));
 }

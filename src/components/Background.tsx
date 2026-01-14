@@ -11,18 +11,20 @@ const Background = () => {
     let bkg = "var(--background)";
 
     // create linear gradient background with colors
-    if (color1 && color2) {
-      // use color2 as fallback for color3 if only 2 colors available
-      const c3 = color3 || color2;
+    if (color1) {
+      // use color1 as fallback for missing colors
+      const c1 = color1;
+      const c2 = color2 || color1;
+      const c3 = color3 || color2 || color1;
       bkg = `linear-gradient(
         217deg,
-        rgba(${color1[0]}, ${color1[1]}, ${color1[2]}, 0.75),
-        rgba(${color1[0]}, ${color1[1]}, ${color1[2]}, 0) 80%
+        rgba(${c1[0]}, ${c1[1]}, ${c1[2]}, 0.75),
+        rgba(${c1[0]}, ${c1[1]}, ${c1[2]}, 0) 80%
       ),
       linear-gradient(
         336deg,
-        rgba(${color2[0]}, ${color2[1]}, ${color2[2]}, 0.75),
-        rgba(${color2[0]}, ${color2[1]}, ${color2[2]}, 0) 80%
+        rgba(${c2[0]}, ${c2[1]}, ${c2[2]}, 0.75),
+        rgba(${c2[0]}, ${c2[1]}, ${c2[2]}, 0) 80%
       ),
       linear-gradient(
         127deg,

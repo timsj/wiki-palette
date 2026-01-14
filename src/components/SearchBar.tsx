@@ -179,17 +179,17 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
                 <CgClose />
               </button>
             )}
+            <ul className={`${styles.results} ${!showDropdown ? "hidden" : ""}`}>
+              {isSearchLoading ? (
+                <li>
+                  <Loading center />
+                </li>
+              ) : (
+                renderResults
+              )}
+            </ul>
           </div>
         </div>
-        <ul className={`${styles.results} ${!showDropdown ? "hidden" : ""}`}>
-          {isSearchLoading ? (
-            <li>
-              <Loading center />
-            </li>
-          ) : (
-            renderResults
-          )}
-        </ul>
       </form>
     </div>
   );

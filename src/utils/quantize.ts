@@ -10,7 +10,8 @@
  * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
  */
 
-export type Pixel = number[]; // [R, G, B] for given pixel
+import { Pixel } from "../types";
+
 type Histo = number[]; // Number of pixels in each quantized region of colorspace
 
 // private constants

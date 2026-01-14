@@ -55,6 +55,8 @@ const reducers = (state: GlobalState, action: Action): GlobalState => {
       return { ...state, isModalOpen: true };
     case ActionType.HIDE_MODAL:
       return { ...state, isModalOpen: false };
+    case ActionType.SET_QUANTIZE_METHOD:
+      return { ...state, quantizeMethod: action.payload.method };
     default:
       return state;
   }

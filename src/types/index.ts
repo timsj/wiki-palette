@@ -19,3 +19,5 @@ export interface SelectedSummary {
 
 export type ColorPalette = number[];
 //[R, G, B] for given number of colors in generated palette
+
+export type Pixel = number[]; // [R, G, B] for a single pixel

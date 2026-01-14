@@ -4,6 +4,7 @@ import { ActionType } from "./action-types";
 import reducers from "./reducers";
 import { SearchResults, SelectedSummary, ColorPalette } from "../types";
 import { searchWiki, summaryWiki, randomWiki } from "../api/wiki";
+import { QuantizeMethod } from "../utils";
 
 // set global state types
 export interface GlobalState {
@@ -23,6 +24,8 @@ export interface GlobalState {
   isModalOpen: boolean;
   openModal?: () => void;
   closeModal?: () => void;
+  quantizeMethod: QuantizeMethod;
+  setQuantizeMethod?: (method: QuantizeMethod) => void;
 }
 
 const initialGlobalState: GlobalState = {
@@ -36,6 +39,7 @@ const initialGlobalState: GlobalState = {
   showDropdown: false,
   bkgPalette: [],
   isModalOpen: false,
+  quantizeMethod: "octree",
 };
 
 // create app context
@@ -97,6 +101,10 @@ const AppProvider: React.FC<ProviderChild> = ({ children }) => {
 
   const closeModal = () => dispatch({ type: ActionType.HIDE_MODAL });
 
+  const setQuantizeMethod = (method: QuantizeMethod) => {
+    dispatch({ type: ActionType.SET_QUANTIZE_METHOD, payload: { method } });
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -107,6 +115,7 @@ const AppProvider: React.FC<ProviderChild> = ({ children }) => {
         setBackground,
         openModal,
         closeModal,
+        setQuantizeMethod,
       }}
     >
       {children}
