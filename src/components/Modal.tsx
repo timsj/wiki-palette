@@ -42,17 +42,16 @@ const Modal = () => {
       className={`${styles.dialog} ${isClosing ? styles.closing : ""}`}
     >
       <div className={styles.content}>
-        <div className={styles.btnContainer}>
-          <button
-            type="button"
-            className={`btn btn-alt ${styles.closeBtn}`}
-            onClick={handleClose}
-          >
-            <CgClose />
-          </button>
-        </div>
-        <p className={styles.text} style={{ marginTop: "0.5rem" }}>
-          The color palettes shown here return up to 16 of the most dominant
+        <button
+          type="button"
+          className={`btn btn-alt ${styles.closeBtn}`}
+          onClick={handleClose}
+        >
+          <CgClose />
+        </button>
+        <div className={styles.scrollable}>
+          <p className={styles.text}>
+            The color palettes shown here return up to 16 of the most dominant
           colors in a given image. They are generated using{" "}
           <a
             className={styles.externalLink}
@@ -111,6 +110,7 @@ const Modal = () => {
           relative to a reference white from lightest to darkest, top-left to
           bottom-right.
         </p>
+        </div>
       </div>
     </dialog>
   );
