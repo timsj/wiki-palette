@@ -113,8 +113,8 @@ const Palette = () => {
           renderPalette(sortColors ? sortedPalette : defaultPalette)
         ) : (
           <p className={styles.infoText}>
-            Search for a Wikipedia article with a lead image to show a generated
-            color palette.
+            Search for a Wikipedia article with a lead image to generate a color
+            palette.
           </p>
         )}
       </div>

@@ -96,7 +96,7 @@ const Summary = ({ data }: SelectedSummaryProps) => {
           <a href={pageURL} target="_blank" rel="noopener noreferrer">
             disambiguation page
           </a>
-          , please search again and select a page with a non-ambiguous title.
+          . Please search again and select a page with a non-ambiguous title.
         </p>
       </div>
     );
