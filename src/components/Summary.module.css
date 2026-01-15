@@ -17,7 +17,7 @@
   width: auto;
   max-width: 100%;
   border: 3px solid var(--border-subtle);
-  border-radius: 0.5rem;
+  border-radius: var(--border-radius-md);
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 1rem;
@@ -30,8 +30,13 @@
   opacity: 0.9;
 }
 
-.externalLink {
+.linkContainer {
   display: flex;
-  align-items: center;
-  width: fit-content;
+  justify-content: center;
+}
+
+.externalLink {
+  color: var(--button-text);
+  text-decoration: none;
+  font-size: var(--small);
 }

@@ -122,15 +122,17 @@ const Summary = ({ data }: SelectedSummaryProps) => {
       )}
       <canvas className="canvas hidden" ref={canvas}></canvas>
       <p>{extract}</p>
-      <a
-        className={styles.externalLink}
-        href={pageURL}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Read the full page on Wikipedia&nbsp;
-        <RiExternalLinkLine />
-      </a>
+      <div className={styles.linkContainer}>
+        <a
+          className={`btn btn-switch ${styles.externalLink}`}
+          href={pageURL}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Read the full page on Wikipedia&nbsp;
+          <RiExternalLinkLine />
+        </a>
+      </div>
     </div>
   );
 };

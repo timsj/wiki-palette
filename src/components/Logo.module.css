@@ -14,3 +14,12 @@
   height: 1em;
   margin-right: 0.3em;
 }
+
+.wiki {
+  font-family: var(--font-family-mono);
+  font-weight: 600;
+}
+
+.palette {
+  font-weight: 300;
+}

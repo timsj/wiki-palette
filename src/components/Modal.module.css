@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 2rem 1rem;
   animation: fadeIn 200ms ease-out;
 }
 
@@ -29,6 +29,8 @@
   background: rgba(0, 0, 0, 0.5);
   border-radius: var(--border-radius-lg);
   padding: 1rem 2rem;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
   animation: scaleIn 200ms ease-out;
 }
 
@@ -63,18 +65,17 @@
 .externalLink {
   display: inline-flex;
   align-items: center;
-  color: #4f7d9e;
+  color: var(--link);
 }
 
 .btnContainer {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
+  position: sticky;
+  top: 0;
+  float: right;
+  z-index: 1;
 }
 
 .closeBtn {
-  background: transparent;
-  box-shadow: none;
   padding: 0.25rem;
 }
 

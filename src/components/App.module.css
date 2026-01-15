@@ -16,6 +16,7 @@
   min-width: 300px;
   width: var(--fluid-width);
   max-width: var(--fixed-width);
+  transition: max-width 0.3s ease-in-out;
 }
 
 .topContainer {
@@ -44,7 +45,7 @@
 }
 
 @media (min-width: 900px) {
-  .content {
+  .content.expanded {
     max-width: 900px;
   }
 
@@ -73,7 +74,7 @@
 }
 
 @media (min-width: 1200px) {
-  .content {
+  .content.expanded {
     max-width: 1200px;
   }
 

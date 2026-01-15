@@ -13,14 +13,6 @@
   margin-bottom: 1rem;
 }
 
-.controls {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
 .controlGroup {
   display: flex;
   flex-direction: column;
@@ -66,7 +58,7 @@
   display: flex;
   flex-wrap: wrap;
   flex-grow: 1;
-  border-radius: 0.5rem;
+  border-radius: var(--border-radius-md);
   overflow: hidden;
   font-family: var(--font-family-mono);
 }
@@ -123,7 +115,7 @@
   font-weight: 400;
   font-family: var(--font-family);
   cursor: pointer;
-  background: var(--button-hover);
+  background: var(--button-bg-subtle);
   border: none;
   color: var(--button-text);
   transition: var(--transition);
@@ -138,10 +130,10 @@
 }
 
 .methodOption:hover {
-  background: var(--button);
+  background: var(--button-bg);
 }
 
 .methodOption.active {
-  background: var(--button);
+  background: var(--button-bg);
   font-weight: 600;
 }

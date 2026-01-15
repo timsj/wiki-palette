@@ -14,6 +14,12 @@ const Modal = () => {
 
   useEffect(() => {
     dialogRef.current?.showModal();
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
   }, []);
 
   const handleClose = () => {
@@ -57,17 +63,7 @@ const Modal = () => {
             color quantization&nbsp;
             <RiExternalLinkLine />
           </a>{" "}
-          methods based on the{" "}
-          <a
-            className={styles.externalLink}
-            href="http://www.leptonica.org/papers/mediancut.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            modified median cut (MMC)&nbsp;
-            <RiExternalLinkLine />
-          </a>{" "}
-          and{" "}
+          methods based on the following algorithms:{" "}
           <a
             className={styles.externalLink}
             href="http://www.leptonica.org/papers/colorquant.pdf"
@@ -77,12 +73,28 @@ const Modal = () => {
             octree&nbsp;
             <RiExternalLinkLine />
           </a>{" "}
-          algorithms.
+          and{" "}
+          <a
+            className={styles.externalLink}
+            href="http://www.leptonica.org/papers/mediancut.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            modified median cut (MMC)&nbsp;
+            <RiExternalLinkLine />
+          </a>
         </p>
         <p className={styles.text}>
           By default, the palettes are sorted by dominance, meaning that the
           top-left color appears most frequently in the input image, whereas the
           the bottom-right color appears least frequently.
+        </p>
+        <p className={styles.text}>
+          You may notice that when using the octree method, there may be fewer
+          than 16 colors in the palette. This is expected, as octree
+          quantization may stop early if the image's colors collapse into fewer
+          distinct clusters, whereas MMC always partitions the color space into
+          a fixed number of regions.
         </p>
         <p className={styles.text} style={{ marginBottom: "0.5rem" }}>
           Optionally, palettes can be sorted by{" "}

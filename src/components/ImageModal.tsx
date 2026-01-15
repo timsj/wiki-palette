@@ -16,6 +16,12 @@ const ImageModal = ({ src, alt, onClose }: ImageModalProps) => {
 
   useEffect(() => {
     dialogRef.current?.showModal();
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
   }, []);
 
   const handleClose = () => {

@@ -72,14 +72,14 @@
 }
 
 .container li:first-child {
-  border-radius: 0.75rem 0.75rem 0 0;
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
 }
 
 .container li:last-child {
   border-bottom: 1px solid var(--alt-background-active);
-  border-radius: 0 0 0.75rem 0.75rem;
+  border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
 }
 
 .container li:only-child {
-  border-radius: 0.75rem;
+  border-radius: var(--border-radius-lg);
 }

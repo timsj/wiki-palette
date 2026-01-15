@@ -155,7 +155,7 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
             )}
             <button
               type="button"
-              className="btn btn-hover text-small"
+              className="btn btn-switch text-small"
               onClick={debouncedHandleRandom}
             >
               <FaRandom /> &nbsp;Random article

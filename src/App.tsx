@@ -19,7 +19,7 @@ const App = () => {
     <main className={styles.main}>
       <Background />
       {isModalOpen && <Modal />}
-      <div className={styles.content}>
+      <div className={`${styles.content} ${summary || isSummaryLoading ? styles.expanded : ""}`}>
         <div className={`card ${styles.topContainer}`}>
           <div className={styles.logoContainer}>
             <Logo />
