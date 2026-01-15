@@ -110,7 +110,7 @@
 }
 
 .methodOption {
-  padding: 0.35rem 0.6rem;
+  padding: var(--button-padding);
   font-size: var(--small);
   font-weight: 400;
   font-family: var(--font-family);

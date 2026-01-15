@@ -30,6 +30,7 @@ html {
   --button-bg: rgba(250, 250, 250, 0.25);
   --button-bg-subtle: rgba(250, 250, 250, 0.1);
   --button-text: var(--paragraph);
+  --button-padding: 0.35rem 0.6rem;
   --border-subtle: rgba(128, 128, 128, 0.3);
 
   /* gray */
@@ -156,7 +157,7 @@ ul {
 .btn {
   display: inline-flex;
   align-items: center;
-  padding: 0.5rem 0.75rem;
+  padding: var(--button-padding);
   border: transparent;
   border-radius: var(--border-radius-sm);
   transition: var(--transition);
