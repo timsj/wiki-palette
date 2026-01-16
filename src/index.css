@@ -47,7 +47,6 @@ html {
   --red-dark: #842029;
   --green-light: #d1e7dd;
   --green-dark: #0f5132;
-  --blur: blur(100px);
   --border-radius-lg: 0.75rem;
   --border-radius-md: 0.5rem;
   --border-radius-sm: 0.25rem;
@@ -144,7 +143,6 @@ ul {
   padding: 5%;
   border: transparent;
   border-radius: var(--border-radius-lg);
-  backdrop-filter: var(--blur);
   box-shadow: var(--shadow-2);
 }
 
