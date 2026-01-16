@@ -1,6 +1,20 @@
 .summary {
   margin-top: 1em;
+  transition: filter 0.2s ease-out;
+}
+
+.summary.hidden {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.summary.animate {
   animation: fadeSlideUp 200ms ease-out;
+}
+
+.summary.blurred {
+  filter: blur(4px);
+  pointer-events: none;
 }
 
 @keyframes fadeSlideUp {
@@ -30,6 +44,7 @@
   max-width: 100%;
   border: 3px solid var(--border-subtle);
   border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-2);
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 1rem;

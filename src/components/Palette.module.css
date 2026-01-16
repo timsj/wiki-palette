@@ -65,6 +65,7 @@
 
 .paletteContainer.hasPalette {
   border: 3px solid var(--border-subtle);
+  box-shadow: var(--shadow-2);
 }
 
 .colorBox {

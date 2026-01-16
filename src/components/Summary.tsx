@@ -9,17 +9,22 @@ import styles from "./Summary.module.css";
 
 interface SelectedSummaryProps {
   data: SelectedSummary;
+  isLoading?: boolean;
 }
 
-const Summary = ({ data }: SelectedSummaryProps) => {
+const Summary = ({ data, isLoading }: SelectedSummaryProps) => {
   const { type, title, extract, pageURL, originalImgURL, thumbnailImgURL } =
     data;
   const { setBackground, quantizeMethod } = useAppContext();
   const canvas = useRef<HTMLCanvasElement | null>(null);
   const imgDataRef = useRef<ImageData | null>(null);
   const [showImageModal, setShowImageModal] = useState(false);
+  const [isReady, setIsReady] = useState(!originalImgURL); // Ready immediately if no image
 
   useEffect(() => {
+    // Reset ready state when data changes
+    setIsReady(!originalImgURL);
+
     if (thumbnailImgURL) {
       // if there is a lead image, handle image
       // keep previous colors until new image loads
@@ -103,7 +108,7 @@ const Summary = ({ data }: SelectedSummaryProps) => {
   }
 
   return (
-    <div className={`card ${styles.summary}`}>
+    <div className={`card ${styles.summary} ${isLoading ? styles.blurred : ""} ${isReady ? styles.animate : styles.hidden}`}>
       <h5>{title}</h5>
       {originalImgURL && (
         <img
@@ -111,6 +116,7 @@ const Summary = ({ data }: SelectedSummaryProps) => {
           src={originalImgURL}
           alt={title}
           onClick={() => setShowImageModal(true)}
+          onLoad={() => setIsReady(true)}
         />
       )}
       {showImageModal && originalImgURL && (

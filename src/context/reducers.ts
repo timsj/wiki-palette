@@ -33,7 +33,7 @@ const reducers = (state: GlobalState, action: Action): GlobalState => {
       return {
         ...state,
         isSummaryLoading: true,
-        summary: null,
+        // Keep previous summary visible (blurred) while loading
       };
     case ActionType.GET_SUMMARY_SUCCESS:
       return {

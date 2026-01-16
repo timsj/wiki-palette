@@ -32,12 +32,21 @@ const App = () => {
           {showAlert && <Alert />}
         </div>
         <div className={`${styles.resultsContainer} ${summary || isSummaryLoading ? styles.hasSummary : ""}`}>
-          {isSummaryLoading ? (
+          {isSummaryLoading && !summary ? (
             <div className={`card ${styles.summaryLoading}`}>
               <Loading center />
             </div>
           ) : (
-            summary && <Summary key={summary.title} data={summary} />
+            summary && (
+              <div className={styles.summaryWrapper}>
+                <Summary key={summary.title} data={summary} isLoading={isSummaryLoading} />
+                {isSummaryLoading && (
+                  <div className={styles.summaryOverlay}>
+                    <Loading center />
+                  </div>
+                )}
+              </div>
+            )
           )}
           <Palette />
         </div>
