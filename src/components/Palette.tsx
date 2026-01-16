@@ -71,8 +71,7 @@ const Palette = () => {
                 <button
                   type="button"
                   className="btn btn-alt text-small"
-                  data-value={hex}
-                  onClick={(e) => handleColorClick(e, hex)}
+                  onClick={() => handleColorClick(hex)}
                 >
                   {clickedBtn === hex && isCopied ? <>copied!</> : hex}
                 </button>
@@ -90,7 +89,7 @@ const Palette = () => {
     return boxes;
   };
 
-  const handleColorClick = async (e: React.MouseEvent, hex: string) => {
+  const handleColorClick = async (hex: string) => {
     setClickedBtn(hex);
     await navigator.clipboard.writeText(hex);
     setIsCopied(true);

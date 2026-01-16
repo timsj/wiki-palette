@@ -12,6 +12,7 @@
 
 .content {
   padding: 1rem 0;
+  padding-bottom: 4rem; /* space for footer (2rem) + gap */
   margin: 0 auto;
   min-width: 300px;
   width: var(--fluid-width);
