@@ -37,7 +37,7 @@ const App = () => {
               <Loading center />
             </div>
           ) : (
-            summary && <Summary data={summary} />
+            summary && <Summary key={summary.title} data={summary} />
           )}
           <Palette />
         </div>

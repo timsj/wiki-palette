@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 
 import { useAppContext } from "../context/appContext";
@@ -8,13 +8,43 @@ import styles from "./Palette.module.css";
 
 const Palette = () => {
   const [sortColors, setSortColors] = useState(false);
-  const [clickedBtn, setClickedBtn] = useState<number | null>(null);
+  const [clickedBtn, setClickedBtn] = useState<string | null>(null);
   const [isCopied, setIsCopied] = useState(false);
+  const [shouldAnimate, setShouldAnimate] = useState(false);
   const { bkgPalette, openModal, quantizeMethod, setQuantizeMethod } =
     useAppContext();
 
-  const defaultPalette = bkgPalette; // already sorted by dominance using quantize func
-  const sortedPalette = sortByLuminance(bkgPalette);
+  // Create a key that changes when palette updates to trigger animation
+  const paletteKey = useMemo(() => {
+    if (bkgPalette.length === 0) return "empty";
+    return bkgPalette.map((c) => c.join(",")).join("|");
+  }, [bkgPalette]);
+
+  // Track palette changes to trigger animation only when palette data changes
+  const prevPaletteKey = useRef<string | null>(null);
+  useEffect(() => {
+    if (paletteKey !== "empty" && paletteKey !== prevPaletteKey.current) {
+      setShouldAnimate(true);
+      prevPaletteKey.current = paletteKey;
+      // Reset after animation completes
+      const timer = setTimeout(() => setShouldAnimate(false), 500);
+      return () => clearTimeout(timer);
+    }
+  }, [paletteKey]);
+
+  // Deduplicate palette by hex value
+  const uniquePalette = useMemo(() => {
+    const seen = new Set<string>();
+    return bkgPalette.filter((color) => {
+      const hex = rgbToHex(color[0], color[1], color[2]);
+      if (seen.has(hex)) return false;
+      seen.add(hex);
+      return true;
+    });
+  }, [bkgPalette]);
+
+  const defaultPalette = uniquePalette; // already sorted by dominance using quantize func
+  const sortedPalette = sortByLuminance(uniquePalette);
 
   const renderPalette = (palette: ColorPalette[]) => {
     const gridSize = 16;
@@ -29,21 +59,24 @@ const Palette = () => {
         const hex = rgbToHex(r, g, b);
 
         boxes.push(
-          <div
-            key={i}
-            className={styles.colorBox}
-            style={{ backgroundColor: `rgb(${rgb})` }}
-          >
-            <div className={styles.btnContainer}>
-              <button
-                key={i}
-                type="button"
-                className="btn btn-alt text-small"
-                data-value={hex}
-                onClick={(e) => handleColorClick(e, i)}
-              >
-                {i === clickedBtn && isCopied ? <>copied!</> : hex}
-              </button>
+          <div key={hex} className={styles.colorBox}>
+            <div
+              className={`${styles.colorFill} ${shouldAnimate ? styles.animate : ""}`}
+              style={{
+                backgroundColor: `rgb(${rgb})`,
+                viewTransitionName: `color-${hex.slice(1)}`,
+              }}
+            >
+              <div className={styles.btnContainer}>
+                <button
+                  type="button"
+                  className="btn btn-alt text-small"
+                  data-value={hex}
+                  onClick={(e) => handleColorClick(e, hex)}
+                >
+                  {clickedBtn === hex && isCopied ? <>copied!</> : hex}
+                </button>
+              </div>
             </div>
           </div>
         );
@@ -57,14 +90,22 @@ const Palette = () => {
     return boxes;
   };
 
-  const handleColorClick = async (e: React.MouseEvent, i: number) => {
-    setClickedBtn(i);
-    const clickedValue = e.currentTarget.getAttribute("data-value");
-    // console.log(clickedValue);
-    if (clickedValue) {
-      await navigator.clipboard.writeText(clickedValue);
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 1500);
+  const handleColorClick = async (e: React.MouseEvent, hex: string) => {
+    setClickedBtn(hex);
+    await navigator.clipboard.writeText(hex);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 1500);
+  };
+
+  const handleSortChange = (sorted: boolean) => {
+    // Only use View Transitions on Chromium browsers (Chrome, Edge)
+    // Safari's implementation is choppy, Firefox doesn't support it
+    const isChromium = 'chrome' in window;
+
+    if (document.startViewTransition && isChromium) {
+      document.startViewTransition(() => setSortColors(sorted));
+    } else {
+      setSortColors(sorted);
     }
   };
 
@@ -105,6 +146,7 @@ const Palette = () => {
         )}
       </div>
       <div
+        key={paletteKey}
         className={`${styles.paletteContainer} ${
           bkgPalette.length > 0 ? styles.hasPalette : ""
         }`}
@@ -127,7 +169,7 @@ const Palette = () => {
               className={`${styles.methodOption} ${
                 !sortColors ? styles.active : ""
               }`}
-              onClick={() => setSortColors(false)}
+              onClick={() => handleSortChange(false)}
             >
               Dominance
             </button>
@@ -136,7 +178,7 @@ const Palette = () => {
               className={`${styles.methodOption} ${
                 sortColors ? styles.active : ""
               }`}
-              onClick={() => setSortColors(true)}
+              onClick={() => handleSortChange(true)}
             >
               Luminance
             </button>

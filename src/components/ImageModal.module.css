@@ -38,6 +38,10 @@
   animation: scaleOut 200ms ease-out forwards;
 }
 
+:global(:root.very-dark) .image {
+  background: rgba(255, 255, 255, 0.9);
+}
+
 .image {
   max-width: 95vw;
   max-height: 95vh;
@@ -47,9 +51,9 @@
 }
 
 .closeBtn {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
   background: rgba(0, 0, 0, 0.5);
   padding: 0.35rem;
   z-index: 1;

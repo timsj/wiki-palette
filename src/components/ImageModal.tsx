@@ -43,14 +43,14 @@ const ImageModal = ({ src, alt, onClose }: ImageModalProps) => {
       onClick={handleBackdropClick}
       className={`${styles.dialog} ${isClosing ? styles.closing : ""}`}
     >
+      <button
+        type="button"
+        className={`btn btn-alt ${styles.closeBtn}`}
+        onClick={handleClose}
+      >
+        <CgClose />
+      </button>
       <div className={styles.content}>
-        <button
-          type="button"
-          className={`btn btn-alt ${styles.closeBtn}`}
-          onClick={handleClose}
-        >
-          <CgClose />
-        </button>
         <img className={styles.image} src={src} alt={alt} />
       </div>
     </dialog>

@@ -77,6 +77,63 @@
   border-bottom: 1px solid var(--border-subtle);
 }
 
+.colorFill {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.colorFill.animate {
+  animation: popIn 150ms ease-out backwards;
+}
+
+.colorBox:nth-child(1) .colorFill.animate { animation-delay: 0ms; }
+.colorBox:nth-child(2) .colorFill.animate { animation-delay: 20ms; }
+.colorBox:nth-child(3) .colorFill.animate { animation-delay: 40ms; }
+.colorBox:nth-child(4) .colorFill.animate { animation-delay: 60ms; }
+.colorBox:nth-child(5) .colorFill.animate { animation-delay: 80ms; }
+.colorBox:nth-child(6) .colorFill.animate { animation-delay: 100ms; }
+.colorBox:nth-child(7) .colorFill.animate { animation-delay: 120ms; }
+.colorBox:nth-child(8) .colorFill.animate { animation-delay: 140ms; }
+.colorBox:nth-child(9) .colorFill.animate { animation-delay: 160ms; }
+.colorBox:nth-child(10) .colorFill.animate { animation-delay: 180ms; }
+.colorBox:nth-child(11) .colorFill.animate { animation-delay: 200ms; }
+.colorBox:nth-child(12) .colorFill.animate { animation-delay: 220ms; }
+.colorBox:nth-child(13) .colorFill.animate { animation-delay: 240ms; }
+.colorBox:nth-child(14) .colorFill.animate { animation-delay: 260ms; }
+.colorBox:nth-child(15) .colorFill.animate { animation-delay: 280ms; }
+.colorBox:nth-child(16) .colorFill.animate { animation-delay: 300ms; }
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Disable root snapshot to prevent page flicker during view transitions */
+:global(:root) {
+  view-transition-name: none;
+}
+
+/* View Transitions for sort animation */
+:global(::view-transition-group(*)) {
+  animation-duration: 300ms;
+  animation-timing-function: ease-in-out;
+}
+
+:global(::view-transition-old(*)),
+:global(::view-transition-new(*)) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
 .colorBox:nth-child(4n) {
   border-right: none;
 }
