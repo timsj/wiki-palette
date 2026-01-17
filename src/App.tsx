@@ -1,15 +1,13 @@
 import { useState, useEffect, useRef } from "react";
-import {
-  Loading,
-  Alert,
-  SearchBar,
-  Summary,
-  Background,
-  Palette,
-  Logo,
-  Footer,
-  Modal,
-} from "./components";
+import Loading from "./components/Loading";
+import Alert from "./components/Alert";
+import SearchBar from "./components/SearchBar";
+import Summary from "./components/Summary";
+import Background from "./components/Background";
+import Palette from "./components/Palette";
+import Logo from "./components/Logo";
+import Footer from "./components/Footer";
+import Modal from "./components/Modal";
 import { useAppContext } from "./context/appContext";
 import { SelectedSummary } from "./types";
 import styles from "./components/App.module.css";

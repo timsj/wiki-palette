@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { FaRandom } from "react-icons/fa";
 import { CgClose } from "react-icons/cg";
 
-import { Loading } from ".";
+import Loading from "./Loading";
 import { debounce } from "../utils";
 import { useAppContext } from "../context/appContext";
 import styles from "./SearchBar.module.css";
