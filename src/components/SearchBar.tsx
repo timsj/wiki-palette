@@ -163,6 +163,7 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
           </div>
           <div className={styles.input}>
             <input
+              id={name}
               className="form-input"
               type="text"
               name={name}
