@@ -19,15 +19,10 @@ const Summary = ({ data, isLoading }: SelectedSummaryProps) => {
   const canvas = useRef<HTMLCanvasElement | null>(null);
   const imgDataRef = useRef<ImageData | null>(null);
   const [showImageModal, setShowImageModal] = useState(false);
-  const [isReady, setIsReady] = useState(!originalImgURL); // Ready immediately if no image
 
   useEffect(() => {
-    // Reset ready state when data changes
-    setIsReady(!originalImgURL);
-
     if (thumbnailImgURL) {
       // if there is a lead image, handle image
-      // keep previous colors until new image loads
       handleImage();
     } else {
       // if no image, set empty background color palette and default meta theme
@@ -37,8 +32,8 @@ const Summary = ({ data, isLoading }: SelectedSummaryProps) => {
   }, [thumbnailImgURL]);
 
   const handleImage = () => {
-    // create canvas context
-    const context = canvas.current?.getContext("2d");
+    // create canvas context with willReadFrequently for better getImageData performance
+    const context = canvas.current?.getContext("2d", { willReadFrequently: true });
 
     // create new img variable and set src as thumbnail URL
     const image = new Image();
@@ -108,7 +103,7 @@ const Summary = ({ data, isLoading }: SelectedSummaryProps) => {
   }
 
   return (
-    <div className={`card ${styles.summary} ${isLoading ? styles.blurred : ""} ${isReady ? styles.animate : styles.hidden}`}>
+    <div className={`card ${styles.summary} ${isLoading ? styles.blurred : styles.animate}`}>
       <h5>{title}</h5>
       {originalImgURL && (
         <img
@@ -116,7 +111,6 @@ const Summary = ({ data, isLoading }: SelectedSummaryProps) => {
           src={originalImgURL}
           alt={title}
           onClick={() => setShowImageModal(true)}
-          onLoad={() => setIsReady(true)}
         />
       )}
       {showImageModal && originalImgURL && (

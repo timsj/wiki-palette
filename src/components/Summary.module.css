@@ -3,11 +3,6 @@
   transition: filter 0.2s ease-out;
 }
 
-.summary.hidden {
-  opacity: 0;
-  transform: translateY(10px);
-}
-
 .summary.animate {
   animation: fadeSlideUp 200ms ease-out;
 }
