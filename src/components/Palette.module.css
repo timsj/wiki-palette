@@ -32,6 +32,7 @@
 .controlLabel {
   font-size: var(--small);
   color: var(--paragraph);
+  transition: var(--transition-color);
 }
 
 .palette h5 {
@@ -176,7 +177,7 @@
   background: var(--button-bg-subtle);
   border: none;
   color: var(--button-text);
-  transition: var(--transition);
+  transition: var(--transition), var(--transition-color);
 }
 
 .methodOption:first-child {

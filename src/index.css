@@ -128,7 +128,7 @@ a {
   text-decoration: none;
   font-weight: 600;
   color: var(--link);
-  transition: var(--transition);
+  transition: var(--transition), var(--transition-color);
 }
 
 ul {
@@ -162,7 +162,7 @@ ul {
   padding: var(--button-padding);
   border: transparent;
   border-radius: var(--border-radius-sm);
-  transition: var(--transition);
+  transition: var(--transition), var(--transition-color);
   cursor: pointer;
   background-color: var(--button-bg);
   color: var(--button-text);
