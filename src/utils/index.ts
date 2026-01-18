@@ -65,7 +65,7 @@ export const sortByLuminance = (palette: ColorPalette[]): ColorPalette[] => {
 };
 
 // luminance thresholds for theme detection
-const VERY_DARK_THRESHOLD = 0.025;
+const VERY_DARK_THRESHOLD = 0.03;
 const DARK_MODE_THRESHOLD = 0.25;
 
 export const changeThemeColor = (palette: ColorPalette[]) => {

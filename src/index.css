@@ -41,6 +41,7 @@ html {
   /* box shadow */
   --shadow-1: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --shadow-2: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --text-shadow: 0 1px 2px rgb(0 0 0 / 0.1);
 
   /* remaining variables */
   --red-light: #f8d7da;
@@ -64,6 +65,7 @@ html {
   --alt-background: #212121;
   --alt-background-hover: #374151;
   --alt-background-active: #4b5563;
+  --text-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
 }
 
 body {
@@ -71,6 +73,7 @@ body {
   font-weight: 400;
   line-height: 1.75;
   color: var(--paragraph);
+  text-shadow: var(--text-shadow);
   transition: var(--transition-color);
 }
 
@@ -148,7 +151,8 @@ ul {
 
 :root.very-dark .card {
   background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 6px -1px rgb(255 255 255 / 0.1),
+  box-shadow:
+    0 4px 6px -1px rgb(255 255 255 / 0.1),
     0 2px 4px -2px rgb(255 255 255 / 0.1);
 }
 
@@ -221,7 +225,9 @@ ul {
   border-radius: var(--border-radius-lg);
   background: var(--alt-background);
   color: var(--paragraph);
-  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out,
+  transition:
+    background-color 0.3s ease-in-out,
+    border-color 0.3s ease-in-out,
     color 0.3s ease-in-out;
 }
 
