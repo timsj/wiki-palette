@@ -1,18 +1,62 @@
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo, useRef, useEffect, memo } from "react";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 
-import { useAppContext } from "../context/appContext";
+import { usePaletteState } from "../context/appContext";
 import { sortByLuminance, rgbToHex } from "../utils";
-import { ColorPalette } from "../types";
 import styles from "./Palette.module.css";
+
+const GRID_SIZE = 16;
+
+// Memoized color box component - isolates copy feedback re-renders
+interface ColorBoxProps {
+  r: number;
+  g: number;
+  b: number;
+  hex: string;
+  shouldAnimate: boolean;
+}
+
+const ColorBox = memo(({ r, g, b, hex, shouldAnimate }: ColorBoxProps) => {
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleClick = async () => {
+    await navigator.clipboard.writeText(hex);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 1500);
+  };
+
+  const rgb = `${r}, ${g}, ${b}`;
+
+  return (
+    <div className={styles.colorBox}>
+      <div
+        className={`${styles.colorFill} ${shouldAnimate ? styles.animate : ""}`}
+        style={{
+          backgroundColor: `rgb(${rgb})`,
+          viewTransitionName: `color-${hex.slice(1)}`,
+        }}
+      >
+        <div className={styles.btnContainer}>
+          <button
+            type="button"
+            className="btn btn-alt text-small"
+            onClick={handleClick}
+          >
+            {isCopied ? <>copied!</> : hex}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+});
+
+ColorBox.displayName = "ColorBox";
 
 const Palette = () => {
   const [sortColors, setSortColors] = useState(false);
-  const [clickedBtn, setClickedBtn] = useState<string | null>(null);
-  const [isCopied, setIsCopied] = useState(false);
   const [shouldAnimate, setShouldAnimate] = useState(false);
   const { bkgPalette, openModal, quantizeMethod, setQuantizeMethod } =
-    useAppContext();
+    usePaletteState();
 
   // Create a key that changes when palette updates to trigger animation
   const paletteKey = useMemo(() => {
@@ -43,58 +87,43 @@ const Palette = () => {
     });
   }, [bkgPalette]);
 
-  const defaultPalette = uniquePalette; // already sorted by dominance using quantize func
-  const sortedPalette = sortByLuminance(uniquePalette);
+  // Only compute sorted palette when sortColors is true
+  const sortedPalette = useMemo(() => {
+    return sortColors ? sortByLuminance(uniquePalette) : null;
+  }, [uniquePalette, sortColors]);
 
-  const renderPalette = (palette: ColorPalette[]) => {
-    const gridSize = 16;
+  const displayPalette = sortColors && sortedPalette ? sortedPalette : uniquePalette;
+
+  // Memoize rendered palette - only re-renders when palette data or animation state changes
+  const renderedPalette = useMemo(() => {
     const boxes = [];
 
-    for (let i = 0; i < gridSize; i++) {
-      const color = palette[i];
+    for (let i = 0; i < GRID_SIZE; i++) {
+      const color = displayPalette[i];
 
       if (color) {
         const [r, g, b] = color;
-        const rgb = `${r}, ${g}, ${b}`;
         const hex = rgbToHex(r, g, b);
 
         boxes.push(
-          <div key={hex} className={styles.colorBox}>
-            <div
-              className={`${styles.colorFill} ${shouldAnimate ? styles.animate : ""}`}
-              style={{
-                backgroundColor: `rgb(${rgb})`,
-                viewTransitionName: `color-${hex.slice(1)}`,
-              }}
-            >
-              <div className={styles.btnContainer}>
-                <button
-                  type="button"
-                  className="btn btn-alt text-small"
-                  onClick={() => handleColorClick(hex)}
-                >
-                  {clickedBtn === hex && isCopied ? <>copied!</> : hex}
-                </button>
-              </div>
-            </div>
-          </div>
+          <ColorBox
+            key={hex}
+            r={r}
+            g={g}
+            b={b}
+            hex={hex}
+            shouldAnimate={shouldAnimate}
+          />
         );
       } else {
         boxes.push(
-          <div key={i} className={`${styles.colorBox} ${styles.emptyBox}`} />
+          <div key={`empty-${i}`} className={`${styles.colorBox} ${styles.emptyBox}`} />
         );
       }
     }
 
     return boxes;
-  };
-
-  const handleColorClick = async (hex: string) => {
-    setClickedBtn(hex);
-    await navigator.clipboard.writeText(hex);
-    setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 1500);
-  };
+  }, [displayPalette, shouldAnimate]);
 
   const handleSortChange = (sorted: boolean) => {
     // Only use View Transitions on Chromium browsers (Chrome, Edge)
@@ -151,7 +180,7 @@ const Palette = () => {
         }`}
       >
         {bkgPalette.length > 0 ? (
-          renderPalette(sortColors ? sortedPalette : defaultPalette)
+          renderedPalette
         ) : (
           <p className={styles.infoText}>
             Search for a Wikipedia article with a lead image to generate a color

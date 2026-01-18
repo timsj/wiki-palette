@@ -1,10 +1,10 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { FaRandom } from "react-icons/fa";
 import { CgClose } from "react-icons/cg";
 
 import Loading from "./Loading";
 import { debounce } from "../utils";
-import { useAppContext } from "../context/appContext";
+import { useSearchState } from "../context/appContext";
 import styles from "./SearchBar.module.css";
 
 interface SearchBarProps {
@@ -22,11 +22,22 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
     showDropdown,
     closeDropdown,
     getSummary,
-  } = useAppContext();
+  } = useSearchState();
+
+  // Stable callback refs to avoid recreating debounced functions
+  const searchFnRef = useRef(search);
+  const getSummaryRef = useRef(getSummary);
+  const closeDropdownRef = useRef(closeDropdown);
+
+  useEffect(() => {
+    searchFnRef.current = search;
+    getSummaryRef.current = getSummary;
+    closeDropdownRef.current = closeDropdown;
+  }, [search, getSummary, closeDropdown]);
 
   const [query, setQuery] = useState("");
   const [focusedIndex, setFocusedIndex] = useState(-1);
-  const searchRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const resultRef = useRef<HTMLLIElement | null>(null);
@@ -40,7 +51,7 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
 
   useEffect(() => {
     // searches Wikipedia with debounced input
-    if (search && query) search(query);
+    if (searchFnRef.current && query) searchFnRef.current(query);
     // resets searchbar if query is deleted
     if (!query) resetSearch();
   }, [query]);
@@ -52,21 +63,24 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
 
   const resetSearch = useCallback(() => {
     // close dropdown
-    closeDropdown && closeDropdown();
+    closeDropdownRef.current?.();
     // reset search result focused index
     setFocusedIndex(-1);
   }, []);
 
-  const handleSelection = (selectedIndex: number) => {
+  const handleSelection = useCallback((selectedIndex: number) => {
     // return selected result and fetch summary
     const selectedResult = results[selectedIndex];
-    if (!selectedResult) return resetSearch();
-    getSummary && getSummary(false, selectedResult.title);
+    if (!selectedResult) {
+      resetSearch();
+      return;
+    }
+    getSummaryRef.current?.(false, selectedResult.title);
     // remove keyboard focus from input
     inputRef.current?.blur();
     // reset search
     resetSearch();
-  };
+  }, [results, resetSearch]);
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
     const { key } = e;
@@ -95,31 +109,45 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
 
   const handleClickOutside = (e: MouseEvent) => {
     // closes dropdown if click is registered outside of the searchbar ref
-    if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+    if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
       resetSearch();
     }
   };
 
-  const renderResults = results?.map((result, i) => {
-    if (result.title === "No search results") {
+  // Memoize event handlers for list items to avoid re-creating functions
+  const handleMouseEnter = useCallback((index: number) => {
+    setFocusedIndex(index);
+  }, []);
+
+  const handleResultClick = useCallback((index: number) => {
+    handleSelection(index);
+  }, [handleSelection]);
+
+  // Memoize rendered results to avoid recreation on every render
+  const renderResults = useMemo(() => {
+    return results?.map((result, i) => {
+      if (result.title === "No search results") {
+        return (
+          <li key="no-results" className={styles.noResults}>
+            No search results
+          </li>
+        );
+      }
+      // Use pageid for stable key, fallback to title
+      const key = result.pageid?.toString() ?? result.title;
       return (
-        <li key={0} className={styles.noResults}>
-          No search results
+        <li
+          key={key}
+          onMouseEnter={() => handleMouseEnter(i)}
+          onClick={() => handleResultClick(i)}
+          ref={i === focusedIndex ? resultRef : null}
+          className={i === focusedIndex ? styles.focused : ""}
+        >
+          {result.title}
         </li>
       );
-    }
-    return (
-      <li
-        key={i}
-        onMouseEnter={() => setFocusedIndex(i)}
-        onClick={() => handleSelection(i)}
-        ref={i === focusedIndex ? resultRef : null}
-        className={i === focusedIndex ? styles.focused : ""}
-      >
-        {result.title}
-      </li>
-    );
-  });
+    });
+  }, [results, focusedIndex, handleMouseEnter, handleResultClick]);
 
   const handleClear = () => {
     setQuery(""); // set query state to empty
@@ -127,10 +155,10 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
     formRef.current?.reset(); // clear form input text
   };
 
-  const handleRandom = () => {
-    getSummary && getSummary(true);
+  const handleRandom = useCallback(() => {
+    getSummaryRef.current?.(true);
     resetSearch();
-  };
+  }, [resetSearch]);
 
   const debouncedHandleRandom = useCallback(debounce(handleRandom, 250), []);
 
@@ -139,7 +167,7 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
       className={styles.container}
       tabIndex={1}
       onKeyDown={handleKeyDown}
-      ref={searchRef}
+      ref={containerRef}
     >
       <form
         autoComplete="off"

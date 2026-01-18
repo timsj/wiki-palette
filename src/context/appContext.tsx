@@ -132,4 +132,53 @@ const useAppContext = () => {
   return useContext(AppContext);
 };
 
-export { AppProvider, useAppContext, initialGlobalState };
+// Specialized selector hooks to reduce over-subscription
+// These document what each component needs and can be enhanced with use-context-selector later
+
+/** Hook for Alert component - only needs alert state */
+const useAlertState = () => {
+  const { alertType, alertText } = useAppContext();
+  return { alertType, alertText };
+};
+
+/** Hook for SearchBar component - needs search-related state and actions */
+const useSearchState = () => {
+  const {
+    isSearchLoading,
+    search,
+    results,
+    showDropdown,
+    closeDropdown,
+    getSummary,
+  } = useAppContext();
+  return { isSearchLoading, search, results, showDropdown, closeDropdown, getSummary };
+};
+
+/** Hook for Summary component - needs background setter and quantize method */
+const useSummaryState = () => {
+  const { setBackground, quantizeMethod } = useAppContext();
+  return { setBackground, quantizeMethod };
+};
+
+/** Hook for Palette component - needs palette data and modal/quantize actions */
+const usePaletteState = () => {
+  const { bkgPalette, openModal, quantizeMethod, setQuantizeMethod } = useAppContext();
+  return { bkgPalette, openModal, quantizeMethod, setQuantizeMethod };
+};
+
+/** Hook for Modal component - needs modal state */
+const useModalState = () => {
+  const { isModalOpen, closeModal } = useAppContext();
+  return { isModalOpen, closeModal };
+};
+
+export {
+  AppProvider,
+  useAppContext,
+  useAlertState,
+  useSearchState,
+  useSummaryState,
+  usePaletteState,
+  useModalState,
+  initialGlobalState,
+};

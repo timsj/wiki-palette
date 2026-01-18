@@ -2,13 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { CgClose } from "react-icons/cg";
 
-import { useAppContext } from "../context/appContext";
+import { useModalState } from "../context/appContext";
 import styles from "./Modal.module.css";
 
 const ANIMATION_DURATION = 200;
 
 const Modal = () => {
-  const { closeModal } = useAppContext();
+  const { closeModal } = useModalState();
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const [isClosing, setIsClosing] = useState(false);
 

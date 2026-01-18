@@ -4,6 +4,12 @@ import { useAppContext } from "../context/appContext";
 const Background = () => {
   const { bkgPalette } = useAppContext();
 
+  // Set transition style once on mount
+  useEffect(() => {
+    document.body.style.transition = "background 0.3s ease-in-out";
+  }, []);
+
+  // Update background when palette changes
   useEffect(() => {
     // store up to three dominant colors from generated palette
     const [color1, color2, color3] = bkgPalette;
@@ -34,7 +40,6 @@ const Background = () => {
     }
 
     document.body.style.background = bkg;
-    document.body.style.transition = "background 0.3s ease-in-out";
   }, [bkgPalette]);
 
   return null;

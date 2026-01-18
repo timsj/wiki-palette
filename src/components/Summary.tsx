@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 
-import { useAppContext } from "../context/appContext";
+import { useSummaryState } from "../context/appContext";
 import { SelectedSummary } from "../types";
 import { createColorPalette, changeThemeColor } from "../utils";
 import ImageModal from "./ImageModal";
@@ -15,7 +15,7 @@ interface SelectedSummaryProps {
 const Summary = ({ data, isLoading }: SelectedSummaryProps) => {
   const { type, title, extract, pageURL, originalImgURL, thumbnailImgURL } =
     data;
-  const { setBackground, quantizeMethod } = useAppContext();
+  const { setBackground, quantizeMethod } = useSummaryState();
   const canvas = useRef<HTMLCanvasElement | null>(null);
   const imgDataRef = useRef<ImageData | null>(null);
   const [showImageModal, setShowImageModal] = useState(false);
