@@ -10,6 +10,8 @@
 .summary.blurred {
   filter: blur(4px);
   pointer-events: none;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 @keyframes fadeSlideUp {
