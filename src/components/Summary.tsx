@@ -26,7 +26,7 @@ const Summary = ({ data, isLoading }: SelectedSummaryProps) => {
       handleImage();
     } else {
       // if no image, set empty background color palette and default meta theme
-      setBackground && setBackground([]);
+      setBackground([]);
       changeThemeColor([[255, 255, 254]]);
     }
   }, [thumbnailImgURL]);
@@ -60,15 +60,13 @@ const Summary = ({ data, isLoading }: SelectedSummaryProps) => {
           imgDataRef.current = imgData;
 
           // send image data to palette creation function
-          if (setBackground) {
-            const palette = createColorPalette(
-              imgData.data,
-              16,
-              quantizeMethod
-            );
-            setBackground(palette);
-            changeThemeColor(palette);
-          }
+          const palette = createColorPalette(
+            imgData.data,
+            16,
+            quantizeMethod
+          );
+          setBackground(palette);
+          changeThemeColor(palette);
         }
       }
     };
@@ -76,7 +74,7 @@ const Summary = ({ data, isLoading }: SelectedSummaryProps) => {
 
   // re-extract palette when quantization method changes
   useEffect(() => {
-    if (imgDataRef.current && setBackground) {
+    if (imgDataRef.current) {
       const palette = createColorPalette(
         imgDataRef.current.data,
         16,

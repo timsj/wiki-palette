@@ -17,19 +17,19 @@ export interface GlobalState {
   showAlert: boolean;
   alertText: string;
   alertType: string;
-  search?: (query: string) => Promise<void>;
+  search: (query: string) => Promise<void>;
   results: SearchResults[];
-  getSummary?: (isRandom: boolean, title?: string) => Promise<void>;
+  getSummary: (isRandom: boolean, title?: string) => Promise<void>;
   summary: SelectedSummary | null;
   showDropdown: boolean;
-  closeDropdown?: () => void;
+  closeDropdown: () => void;
   bkgPalette: ColorPalette[];
-  setBackground?: (bkgPalette: ColorPalette[]) => void;
+  setBackground: (bkgPalette: ColorPalette[]) => void;
   isModalOpen: boolean;
-  openModal?: () => void;
-  closeModal?: () => void;
+  openModal: () => void;
+  closeModal: () => void;
   quantizeMethod: QuantizeMethod;
-  setQuantizeMethod?: (method: QuantizeMethod) => void;
+  setQuantizeMethod: (method: QuantizeMethod) => void;
 }
 
 const initialGlobalState: GlobalState = {
@@ -38,12 +38,19 @@ const initialGlobalState: GlobalState = {
   showAlert: false,
   alertText: "",
   alertType: "",
+  search: async () => {},
   results: [],
+  getSummary: async () => {},
   summary: null,
   showDropdown: false,
+  closeDropdown: () => {},
   bkgPalette: [],
+  setBackground: () => {},
   isModalOpen: false,
+  openModal: () => {},
+  closeModal: () => {},
   quantizeMethod: "octree",
+  setQuantizeMethod: () => {},
 };
 
 // create app context

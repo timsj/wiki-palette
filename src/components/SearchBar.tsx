@@ -56,10 +56,9 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
     if (!query) resetSearch();
   }, [query]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void =>
-    setQuery(e.target.value);
-
-  const debouncedHandleChange = useCallback(debounce(handleChange, 1000), []);
+  const debouncedHandleChange = useRef(
+    debounce((e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value), 1000)
+  ).current;
 
   const resetSearch = useCallback(() => {
     // close dropdown
@@ -155,12 +154,13 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
     formRef.current?.reset(); // clear form input text
   };
 
-  const handleRandom = useCallback(() => {
-    getSummaryRef.current?.(true);
-    resetSearch();
-  }, [resetSearch]);
-
-  const debouncedHandleRandom = useCallback(debounce(handleRandom, 250), []);
+  const debouncedHandleRandom = useRef(
+    debounce(() => {
+      getSummaryRef.current?.(true);
+      closeDropdownRef.current?.();
+      setFocusedIndex(-1);
+    }, 250)
+  ).current;
 
   return (
     <div

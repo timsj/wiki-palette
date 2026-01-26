@@ -144,7 +144,7 @@ const Palette = () => {
           Color Palette&nbsp;
           <IoMdInformationCircleOutline
             className={styles.infoBtn}
-            onClick={() => openModal && openModal()}
+            onClick={openModal}
           />
         </h5>
         {bkgPalette.length > 0 && (
@@ -156,7 +156,7 @@ const Palette = () => {
                 className={`${styles.methodOption} ${
                   quantizeMethod === "octree" ? styles.active : ""
                 }`}
-                onClick={() => setQuantizeMethod && setQuantizeMethod("octree")}
+                onClick={() => setQuantizeMethod("octree")}
               >
                 Octree
               </button>
@@ -165,7 +165,7 @@ const Palette = () => {
                 className={`${styles.methodOption} ${
                   quantizeMethod === "mmc" ? styles.active : ""
                 }`}
-                onClick={() => setQuantizeMethod && setQuantizeMethod("mmc")}
+                onClick={() => setQuantizeMethod("mmc")}
               >
                 MMC
               </button>
