@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { FaRandom } from "react-icons/fa";
 import { CgClose } from "react-icons/cg";
 
@@ -11,7 +11,6 @@ interface SearchBarProps {
   name: string;
   placeholder?: string;
   labelText?: string;
-  value?: string;
 }
 
 const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
@@ -23,17 +22,6 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
     closeDropdown,
     getSummary,
   } = useAppContext();
-
-  // Stable callback refs to avoid recreating debounced functions
-  const searchFnRef = useRef(search);
-  const getSummaryRef = useRef(getSummary);
-  const closeDropdownRef = useRef(closeDropdown);
-
-  useEffect(() => {
-    searchFnRef.current = search;
-    getSummaryRef.current = getSummary;
-    closeDropdownRef.current = closeDropdown;
-  }, [search, getSummary, closeDropdown]);
 
   const [query, setQuery] = useState("");
   const [focusedIndex, setFocusedIndex] = useState(-1);
@@ -51,7 +39,7 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
 
   useEffect(() => {
     // searches Wikipedia with debounced input
-    if (searchFnRef.current && query) searchFnRef.current(query);
+    if (query) search(query);
     // resets searchbar if query is deleted
     if (!query) resetSearch();
   }, [query]);
@@ -61,25 +49,20 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
   ).current;
 
   const resetSearch = useCallback(() => {
-    // close dropdown
-    closeDropdownRef.current?.();
-    // reset search result focused index
+    closeDropdown();
     setFocusedIndex(-1);
-  }, []);
+  }, [closeDropdown]);
 
   const handleSelection = useCallback((selectedIndex: number) => {
-    // return selected result and fetch summary
     const selectedResult = results[selectedIndex];
     if (!selectedResult) {
       resetSearch();
       return;
     }
-    getSummaryRef.current?.(false, selectedResult.title);
-    // remove keyboard focus from input
+    getSummary(false, selectedResult.title);
     inputRef.current?.blur();
-    // reset search
     resetSearch();
-  }, [results, resetSearch]);
+  }, [results, resetSearch, getSummary]);
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
     const { key } = e;
@@ -113,18 +96,8 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
     }
   };
 
-  // Memoize event handlers for list items to avoid re-creating functions
-  const handleMouseEnter = useCallback((index: number) => {
-    setFocusedIndex(index);
-  }, []);
-
-  const handleResultClick = useCallback((index: number) => {
-    handleSelection(index);
-  }, [handleSelection]);
-
-  // Memoize rendered results to avoid recreation on every render
-  const renderResults = useMemo(() => {
-    return results?.map((result, i) => {
+  const renderResults = () =>
+    results?.map((result, i) => {
       if (result.title === "No search results") {
         return (
           <li key="no-results" className={styles.noResults}>
@@ -132,13 +105,12 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
           </li>
         );
       }
-      // Use pageid for stable key, fallback to title
       const key = result.pageid?.toString() ?? result.title;
       return (
         <li
           key={key}
-          onMouseEnter={() => handleMouseEnter(i)}
-          onClick={() => handleResultClick(i)}
+          onMouseEnter={() => setFocusedIndex(i)}
+          onClick={() => handleSelection(i)}
           ref={i === focusedIndex ? resultRef : null}
           className={i === focusedIndex ? styles.focused : ""}
         >
@@ -146,7 +118,6 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
         </li>
       );
     });
-  }, [results, focusedIndex, handleMouseEnter, handleResultClick]);
 
   const handleClear = () => {
     setQuery(""); // set query state to empty
@@ -154,13 +125,10 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
     formRef.current?.reset(); // clear form input text
   };
 
-  const debouncedHandleRandom = useRef(
-    debounce(() => {
-      getSummaryRef.current?.(true);
-      closeDropdownRef.current?.();
-      setFocusedIndex(-1);
-    }, 250)
-  ).current;
+  const handleRandom = useCallback(() => {
+    getSummary(true);
+    resetSearch();
+  }, [getSummary, resetSearch]);
 
   return (
     <div
@@ -184,7 +152,7 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
             <button
               type="button"
               className="btn btn-switch text-small"
-              onClick={debouncedHandleRandom}
+              onClick={handleRandom}
             >
               <FaRandom /> &nbsp;Random article
             </button>
@@ -214,7 +182,7 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
                   <Loading center />
                 </li>
               ) : (
-                renderResults
+                renderResults()
               )}
             </ul>
           </div>
