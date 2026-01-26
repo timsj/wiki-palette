@@ -4,7 +4,7 @@ import { CgClose } from "react-icons/cg";
 
 import Loading from "./Loading";
 import { debounce } from "../utils";
-import { useSearchState } from "../context/appContext";
+import { useAppContext } from "../context/appContext";
 import styles from "./SearchBar.module.css";
 
 interface SearchBarProps {
@@ -22,7 +22,7 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
     showDropdown,
     closeDropdown,
     getSummary,
-  } = useSearchState();
+  } = useAppContext();
 
   // Stable callback refs to avoid recreating debounced functions
   const searchFnRef = useRef(search);

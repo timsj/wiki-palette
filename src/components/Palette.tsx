@@ -1,7 +1,7 @@
 import { useState, useMemo, useRef, useEffect, memo } from "react";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 
-import { usePaletteState } from "../context/appContext";
+import { useAppContext } from "../context/appContext";
 import { sortByLuminance, rgbToHex } from "../utils";
 import styles from "./Palette.module.css";
 
@@ -56,7 +56,7 @@ const Palette = () => {
   const [sortColors, setSortColors] = useState(false);
   const [shouldAnimate, setShouldAnimate] = useState(false);
   const { bkgPalette, openModal, quantizeMethod, setQuantizeMethod } =
-    usePaletteState();
+    useAppContext();
 
   // Create a key that changes when palette updates to trigger animation
   const paletteKey = useMemo(() => {

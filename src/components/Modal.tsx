@@ -2,13 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { CgClose } from "react-icons/cg";
 
-import { useModalState } from "../context/appContext";
+import { useAppContext } from "../context/appContext";
 import styles from "./Modal.module.css";
 
 const ANIMATION_DURATION = 200;
 
 const Modal = () => {
-  const { closeModal } = useModalState();
+  const { closeModal } = useAppContext();
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const [isClosing, setIsClosing] = useState(false);
 
@@ -24,9 +24,7 @@ const Modal = () => {
 
   const handleClose = () => {
     setIsClosing(true);
-    setTimeout(() => {
-      closeModal && closeModal();
-    }, ANIMATION_DURATION);
+    setTimeout(closeModal, ANIMATION_DURATION);
   };
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDialogElement>) => {
