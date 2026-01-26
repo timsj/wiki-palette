@@ -22,17 +22,21 @@
 
 .clear {
   position: absolute;
-  bottom: 10%;
-  right: 1%;
+  top: 1px;
+  right: 1px;
+  bottom: 1px;
+  padding: 0 0.625rem;
   color: var(--gray-500);
-  background: var(--alt-background);
+  background: transparent;
   border: none;
+  border-radius: 0 calc(var(--border-radius-lg) - 1px) calc(var(--border-radius-lg) - 1px) 0;
   box-shadow: none;
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  transition: var(--transition);
 }
 
 .clear:hover {
   color: var(--paragraph);
+  background: var(--alt-background-active);
 }
 
 .results {
