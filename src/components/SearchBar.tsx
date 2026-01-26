@@ -16,6 +16,7 @@ interface SearchBarProps {
 const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
   const {
     isSearchLoading,
+    isSummaryLoading,
     search,
     results,
     showDropdown,
@@ -153,6 +154,7 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
               type="button"
               className="btn btn-switch text-small"
               onClick={handleRandom}
+              disabled={isSummaryLoading}
             >
               <FaRandom /> &nbsp;Random article
             </button>
