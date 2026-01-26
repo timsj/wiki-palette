@@ -92,7 +92,7 @@ type VBoxRangeKey = "r1" | "r2" | "g1" | "g2" | "b1" | "b2";
 class VBox {
   private _count: number = -1;
   private _volume: number = 0;
-  private _avg: Pixel = [];
+  private _avg: Pixel | null = null;
 
   constructor(
     public r1: number, // min red
@@ -149,8 +149,8 @@ class VBox {
     );
   };
 
-  avg = (force?: boolean) => {
-    if (this._avg.length && !force) {
+  avg = (force?: boolean): Pixel => {
+    if (this._avg && !force) {
       return this._avg;
     }
     let ntot = 0,

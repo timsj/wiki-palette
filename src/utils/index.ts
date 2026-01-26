@@ -2,9 +2,12 @@ import { quantize } from "./quantize";
 import { octreeQuantize } from "./octree";
 import { ColorPalette, Pixel, QuantizeMethod } from "../types";
 
-export const debounce = (func: Function, delay = 1000) => {
+export const debounce = <T extends unknown[]>(
+  func: (...args: T) => void,
+  delay = 1000
+): ((...args: T) => void) => {
   let timeoutId: ReturnType<typeof setTimeout>;
-  return (...args: any[]) => {
+  return (...args: T) => {
     if (timeoutId) clearTimeout(timeoutId);
     timeoutId = setTimeout(() => func(...args), delay);
   };
@@ -13,7 +16,7 @@ export const debounce = (func: Function, delay = 1000) => {
 const getRgbArray = (imgData: Uint8ClampedArray): Pixel[] => {
   // convert image data array into array of RBG values per pixel
   // [[R,G,B], [R,G,B]...]
-  const rgbArray = [];
+  const rgbArray: Pixel[] = [];
   // loop every 4 elements [...r, g, b, a...]
   for (let i = 0; i < imgData.length; i += 4) {
     rgbArray.push([imgData[i], imgData[i + 1], imgData[i + 2]]);
