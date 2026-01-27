@@ -38,7 +38,6 @@ const reducers = (state: GlobalState, action: Action): GlobalState => {
     case ActionType.GET_SUMMARY_SUCCESS:
       return {
         ...state,
-        isSummaryLoading: false,
         summary: action.payload.summary,
       };
     case ActionType.GET_SUMMARY_ERROR:
@@ -57,6 +56,8 @@ const reducers = (state: GlobalState, action: Action): GlobalState => {
       return { ...state, isModalOpen: false };
     case ActionType.SET_QUANTIZE_METHOD:
       return { ...state, quantizeMethod: action.payload.method };
+    case ActionType.SET_SUMMARY_LOADING:
+      return { ...state, isSummaryLoading: action.payload.isLoading };
     default:
       return state;
   }

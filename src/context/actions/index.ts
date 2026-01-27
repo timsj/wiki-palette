@@ -72,6 +72,13 @@ interface SetQuantizeMethod {
   };
 }
 
+interface SetSummaryLoading {
+  type: ActionType.SET_SUMMARY_LOADING;
+  payload: {
+    isLoading: boolean;
+  };
+}
+
 export type Action =
   | SearchWikiBegin
   | SearchWikiSuccess
@@ -84,4 +91,5 @@ export type Action =
   | SetBackgroundPalette
   | OpenModal
   | HideModal
-  | SetQuantizeMethod;
+  | SetQuantizeMethod
+  | SetSummaryLoading;

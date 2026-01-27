@@ -30,6 +30,7 @@ export interface GlobalState {
   closeModal: () => void;
   quantizeMethod: QuantizeMethod;
   setQuantizeMethod: (method: QuantizeMethod) => void;
+  setSummaryLoading: (isLoading: boolean) => void;
 }
 
 const initialGlobalState: GlobalState = {
@@ -51,6 +52,7 @@ const initialGlobalState: GlobalState = {
   closeModal: () => {},
   quantizeMethod: "octree",
   setQuantizeMethod: () => {},
+  setSummaryLoading: () => {},
 };
 
 // create app context
@@ -116,6 +118,10 @@ const AppProvider: React.FC<ProviderChild> = ({ children }) => {
     dispatch({ type: ActionType.SET_QUANTIZE_METHOD, payload: { method } });
   };
 
+  const setSummaryLoading = (isLoading: boolean) => {
+    dispatch({ type: ActionType.SET_SUMMARY_LOADING, payload: { isLoading } });
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -127,6 +133,7 @@ const AppProvider: React.FC<ProviderChild> = ({ children }) => {
         openModal,
         closeModal,
         setQuantizeMethod,
+        setSummaryLoading,
       }}
     >
       {children}

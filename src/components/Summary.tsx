@@ -15,7 +15,7 @@ interface SelectedSummaryProps {
 const Summary = ({ data, isLoading }: SelectedSummaryProps) => {
   const { type, title, extract, pageURL, originalImgURL, thumbnailImgURL } =
     data;
-  const { setBackground, quantizeMethod } = useAppContext();
+  const { setBackground, quantizeMethod, setSummaryLoading } = useAppContext();
   const canvas = useRef<HTMLCanvasElement | null>(null);
   const imgDataRef = useRef<ImageData | null>(null);
   const [showImageModal, setShowImageModal] = useState(false);
@@ -28,6 +28,7 @@ const Summary = ({ data, isLoading }: SelectedSummaryProps) => {
       // if no image, set empty background color palette and default meta theme
       setBackground([]);
       changeThemeColor([[255, 255, 254]]);
+      setSummaryLoading(false);
     }
   }, [thumbnailImgURL]);
 
@@ -68,6 +69,7 @@ const Summary = ({ data, isLoading }: SelectedSummaryProps) => {
           setBackground(palette);
           changeThemeColor(palette);
         }
+        setSummaryLoading(false);
       }
     };
   };
