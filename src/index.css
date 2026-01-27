@@ -174,9 +174,19 @@ ul {
   transform: translateZ(0);
 }
 
-.btn:hover {
-  background-color: var(--button-bg-subtle);
-  box-shadow: var(--shadow-2);
+@media (hover: hover) {
+  .btn:hover {
+    background-color: var(--button-bg-subtle);
+    box-shadow: var(--shadow-2);
+  }
+
+  .btn-alt:hover {
+    background-color: rgba(50, 50, 50, 0.65);
+  }
+
+  .btn-switch:hover {
+    background-color: var(--button-bg);
+  }
 }
 
 .btn:disabled {
@@ -190,16 +200,8 @@ ul {
   color: var(--gray-200);
 }
 
-.btn-alt:hover {
-  background-color: rgba(50, 50, 50, 0.65);
-}
-
 .btn-switch {
   background-color: var(--button-bg-subtle);
-}
-
-.btn-switch:hover {
-  background-color: var(--button-bg);
 }
 
 .alert {
