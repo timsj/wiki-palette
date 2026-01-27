@@ -171,6 +171,7 @@ ul {
   background-color: var(--button-bg);
   color: var(--button-text);
   box-shadow: var(--shadow-1);
+  transform: translateZ(0);
 }
 
 .btn:hover {
@@ -179,8 +180,9 @@ ul {
 }
 
 .btn:disabled {
-  cursor: not-allowed;
+  transform: scale(0.95) translateZ(0);
   opacity: 0.5;
+  pointer-events: none;
 }
 
 .btn-alt {
@@ -270,11 +272,16 @@ ul {
   height: 2rem;
   border-radius: 50%;
   background:
-    radial-gradient(farthest-side, #ff6b6b 94%, transparent) top/4px 4px no-repeat,
+    radial-gradient(farthest-side, #ff6b6b 94%, transparent) top/4px 4px
+      no-repeat,
     conic-gradient(transparent 30%, #ff6b6b),
     rgb(0 0 0 / 0.2);
   mask: radial-gradient(farthest-side, transparent calc(100% - 4px), black 0);
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), black 0);
+  -webkit-mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 4px),
+    black 0
+  );
   animation:
     spinner 0.6s linear infinite,
     hue-shift 2s linear infinite;
