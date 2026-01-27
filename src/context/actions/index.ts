@@ -2,7 +2,7 @@ import { ActionType } from "../action-types";
 import {
   SearchResults,
   SelectedSummary,
-  ColorPalette,
+  RGB,
   QuantizeMethod,
 } from "../../types";
 
@@ -53,7 +53,7 @@ interface GetSummaryError {
 interface SetBackgroundPalette {
   type: ActionType.SET_BKG_PALETTE;
   payload: {
-    bkgPalette: ColorPalette[];
+    bkgPalette: RGB[];
   };
 }
 

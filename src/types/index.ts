@@ -17,8 +17,7 @@ export interface SelectedSummary {
   pageURL: string;
 }
 
-export type ColorPalette = [number, number, number]; // [R, G, B] for each color in palette
-
 export type Pixel = [number, number, number]; // [R, G, B] for a single pixel
+export type RGB = Pixel; // extracted color from palette
 
 export type QuantizeMethod = "mmc" | "octree";

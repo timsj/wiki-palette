@@ -1,6 +1,6 @@
 import { quantize } from "./quantize";
 import { octreeQuantize } from "./octree";
-import { ColorPalette, Pixel, QuantizeMethod } from "../types";
+import { RGB, Pixel, QuantizeMethod } from "../types";
 
 export const debounce = <T extends unknown[]>(
   func: (...args: T) => void,
@@ -28,7 +28,7 @@ export const createColorPalette = (
   imgData: Uint8ClampedArray,
   maxColors: number,
   method: QuantizeMethod = "octree"
-): ColorPalette[] => {
+): RGB[] => {
   // generate RGB array for each pixel
   const rgbArray = getRgbArray(imgData);
 
@@ -43,7 +43,7 @@ export const createColorPalette = (
   if (palette.length === 0) return [];
 
   // return shallow copy of colors to avoid React devtools cloning error
-  return palette.map((color) => [...color] as ColorPalette);
+  return palette.map((color) => [...color] as RGB);
 };
 
 // Convert sRGB gamma-compressed value to linear RGB
@@ -53,7 +53,7 @@ const srgbToLinear = (value: number): number => {
 };
 
 // https://www.w3.org/TR/WCAG22/#dfn-relative-luminance
-const calcRelativeLuminance = ([r, g, b]: Pixel): number => {
+const calcRelativeLuminance = ([r, g, b]: RGB): number => {
   return (
     0.2126 * srgbToLinear(r) +
     0.7152 * srgbToLinear(g) +
@@ -61,7 +61,7 @@ const calcRelativeLuminance = ([r, g, b]: Pixel): number => {
   );
 };
 
-export const sortByLuminance = (palette: ColorPalette[]): ColorPalette[] => {
+export const sortByLuminance = (palette: RGB[]): RGB[] => {
   return [...palette].sort(
     (c1, c2) => calcRelativeLuminance(c2) - calcRelativeLuminance(c1)
   );
@@ -71,7 +71,7 @@ export const sortByLuminance = (palette: ColorPalette[]): ColorPalette[] => {
 const VERY_DARK_THRESHOLD = 0.03;
 const DARK_MODE_THRESHOLD = 0.25;
 
-export const changeThemeColor = (palette: ColorPalette[]) => {
+export const changeThemeColor = (palette: RGB[]) => {
   if (!palette.length) return;
 
   // grab dominant color from generated color palette

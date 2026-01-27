@@ -5,7 +5,7 @@ import reducers from "./reducers";
 import {
   SearchResults,
   SelectedSummary,
-  ColorPalette,
+  RGB,
   QuantizeMethod,
 } from "../types";
 import { searchWiki, summaryWiki, randomWiki } from "../api/wiki";
@@ -23,8 +23,8 @@ export interface GlobalState {
   summary: SelectedSummary | null;
   showDropdown: boolean;
   closeDropdown: () => void;
-  bkgPalette: ColorPalette[];
-  setBackground: (bkgPalette: ColorPalette[]) => void;
+  bkgPalette: RGB[];
+  setBackground: (bkgPalette: RGB[]) => void;
   isModalOpen: boolean;
   openModal: () => void;
   closeModal: () => void;
@@ -102,7 +102,7 @@ const AppProvider: React.FC<ProviderChild> = ({ children }) => {
     dispatch({ type: ActionType.CLOSE_DROPDOWN });
   };
 
-  const setBackground = (bkgPalette: ColorPalette[]) => {
+  const setBackground = (bkgPalette: RGB[]) => {
     dispatch({ type: ActionType.SET_BKG_PALETTE, payload: { bkgPalette } });
   };
 
