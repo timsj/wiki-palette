@@ -87,3 +87,8 @@
 .container li:only-child {
   border-radius: var(--border-radius-lg);
 }
+
+.loading {
+  transform: scale(0.95) translateZ(0);
+  opacity: 0.5;
+}

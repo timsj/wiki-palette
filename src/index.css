@@ -190,8 +190,6 @@ ul {
 }
 
 .btn:disabled {
-  transform: scale(0.95) translateZ(0);
-  opacity: 0.5;
   pointer-events: none;
 }
 

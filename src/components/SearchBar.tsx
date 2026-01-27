@@ -26,10 +26,15 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
 
   const [query, setQuery] = useState("");
   const [focusedIndex, setFocusedIndex] = useState(-1);
+  const [randomClicked, setRandomClicked] = useState(false);
+
+  useEffect(() => {
+    if (!isSummaryLoading) setRandomClicked(false);
+  }, [isSummaryLoading]);
+
   const containerRef = useRef<HTMLDivElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const resultRef = useRef<HTMLLIElement | null>(null);
 
   useEffect(() => {
     // enables ability for user to click outside of dropdown to hide dropdown
@@ -112,7 +117,6 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
           key={key}
           onMouseEnter={() => setFocusedIndex(i)}
           onClick={() => handleSelection(i)}
-          ref={i === focusedIndex ? resultRef : null}
           className={i === focusedIndex ? styles.focused : ""}
         >
           {result.title}
@@ -127,6 +131,7 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
   };
 
   const handleRandom = useCallback(() => {
+    setRandomClicked(true);
     getSummary(true);
     resetSearch();
   }, [getSummary, resetSearch]);
@@ -152,7 +157,7 @@ const SearchBar = ({ name, placeholder, labelText }: SearchBarProps) => {
             )}
             <button
               type="button"
-              className="btn btn-switch text-small"
+              className={`btn btn-switch text-small ${randomClicked ? styles.loading : ""}`}
               onClick={handleRandom}
               disabled={isSummaryLoading}
             >
